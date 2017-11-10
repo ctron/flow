@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.dentrassi.flow</groupId>
-    <artifactId>flow</artifactId>
+    <artifactId>flow-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -189,6 +189,7 @@
                     <releaseProfiles>release</releaseProfiles>
                     <preparationGoals>clean install</preparationGoals>
                     <goals>deploy</goals>
+                    <tagNameFormat>flow-@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
 
