@@ -10,6 +10,7 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi.component;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -31,11 +32,15 @@ public class BoundDataPortIn extends AbstractSingleDataPortIn {
         this.initializer = initializer;
         this.consumer = value -> {
             boolean called = false;
-            for (final Object v : value.getValues()) {
-                if (clazz.isAssignableFrom(v.getClass())) {
-                    called = true;
-                    consumer.accept(clazz.cast(v));
-                    break;
+
+            final List<?> values = value.getValues();
+            if (values != null) {
+                for (final Object v : value.getValues()) {
+                    if (clazz.isAssignableFrom(v.getClass())) {
+                        called = true;
+                        consumer.accept(clazz.cast(v));
+                        break;
+                    }
                 }
             }
             if (!called) {
