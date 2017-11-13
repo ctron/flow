@@ -5,7 +5,7 @@
 
     <groupId>de.dentrassi.flow</groupId>
     <artifactId>flow-parent</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Flow</name>
@@ -27,7 +27,7 @@
         <url>https://github.com/ctron/flow</url>
         <connection>scm:git:git://github.com/ctron/flow.git</connection>
         <developerConnection>scm:git:git@github.com:ctron/flow.git</developerConnection>
-        <tag>flow-0.0.2</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
