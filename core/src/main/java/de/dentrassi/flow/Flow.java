@@ -12,6 +12,7 @@ package de.dentrassi.flow;
 
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ public class Flow implements AutoCloseable {
 
     private static class FlowExecutorImpl implements FlowExecutor {
 
+        private static final AtomicLong THREAD_COUNTER = new AtomicLong();
+
         private boolean running;
 
         private final LinkedList<Runnable> contextTasks = new LinkedList<>();
@@ -33,6 +36,7 @@ public class Flow implements AutoCloseable {
 
         public FlowExecutorImpl() {
             this.thread = new Thread(this::contextRunner);
+            this.thread.setName("flow-" + THREAD_COUNTER.getAndIncrement());
 
             synchronized (this) {
                 this.running = true;
