@@ -13,6 +13,7 @@
     <packaging>bundle</packaging>
 
     <name>Flow :: Core</name>
+    <description>The core runtime</description>
 
     <dependencies>
         <dependency>

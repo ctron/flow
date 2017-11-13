@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
 
     <name>Flow :: Components</name>
+    <description>Components for flows</description>
 
     <modules>
         <module>csv</module>
