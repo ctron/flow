@@ -37,11 +37,6 @@ public class Flow implements AutoCloseable {
         public FlowExecutorImpl() {
             this.thread = new Thread(this::contextRunner);
             this.thread.setName("flow-" + THREAD_COUNTER.getAndIncrement());
-
-            synchronized (this) {
-                this.running = true;
-            }
-
         }
 
         public void start() {
@@ -74,10 +69,8 @@ public class Flow implements AutoCloseable {
 
         protected synchronized void contextRunner() {
             while (this.running) {
-                try {
-                    wait();
-                } catch (final InterruptedException e) {
-                }
+
+                // process first, we might already have tasks when we got created
 
                 /*
                  * Do this until we have an empty task list. It may be that executing tasks
@@ -87,6 +80,13 @@ public class Flow implements AutoCloseable {
 
                 while (!this.contextTasks.isEmpty()) {
                     processContextTasks();
+                }
+
+                // now wait
+
+                try {
+                    wait();
+                } catch (final InterruptedException e) {
                 }
             }
         }
