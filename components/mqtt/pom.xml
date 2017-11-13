@@ -6,13 +6,14 @@
     <parent>
         <groupId>de.dentrassi.flow</groupId>
         <artifactId>flow-components</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </parent>
 
     <artifactId>flow-component-mqtt</artifactId>
     <packaging>bundle</packaging>
 
     <name>Flow :: Component :: MQTT</name>
+    <description>Components for working with MQTT</description>
 
     <dependencies>
 

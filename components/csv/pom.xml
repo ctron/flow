@@ -6,13 +6,14 @@
     <parent>
         <groupId>de.dentrassi.flow</groupId>
         <artifactId>flow-components</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </parent>
 
     <artifactId>flow-component-csv</artifactId>
     <packaging>bundle</packaging>
 
     <name>Flow :: Component :: CSV</name>
+    <description>Components for working with CSV files</description>
 
     <dependencies>
 
