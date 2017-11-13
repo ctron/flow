@@ -12,6 +12,7 @@ package de.dentrassi.flow;
 
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ public class Flow implements AutoCloseable {
 
     private static class FlowExecutorImpl implements FlowExecutor {
 
+        private static final AtomicLong THREAD_COUNTER = new AtomicLong();
+
         private boolean running;
 
         private final LinkedList<Runnable> contextTasks = new LinkedList<>();
@@ -33,11 +36,7 @@ public class Flow implements AutoCloseable {
 
         public FlowExecutorImpl() {
             this.thread = new Thread(this::contextRunner);
-
-            synchronized (this) {
-                this.running = true;
-            }
-
+            this.thread.setName("flow-" + THREAD_COUNTER.getAndIncrement());
         }
 
         public void start() {
@@ -70,10 +69,8 @@ public class Flow implements AutoCloseable {
 
         protected synchronized void contextRunner() {
             while (this.running) {
-                try {
-                    wait();
-                } catch (final InterruptedException e) {
-                }
+
+                // process first, we might already have tasks when we got created
 
                 /*
                  * Do this until we have an empty task list. It may be that executing tasks
@@ -83,6 +80,13 @@ public class Flow implements AutoCloseable {
 
                 while (!this.contextTasks.isEmpty()) {
                     processContextTasks();
+                }
+
+                // now wait
+
+                try {
+                    wait();
+                } catch (final InterruptedException e) {
                 }
             }
         }
