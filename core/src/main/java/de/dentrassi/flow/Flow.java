@@ -37,6 +37,10 @@ public class Flow implements AutoCloseable {
         public FlowExecutorImpl() {
             this.thread = new Thread(this::contextRunner);
             this.thread.setName("flow-" + THREAD_COUNTER.getAndIncrement());
+
+            synchronized (this) {
+                this.running = true;
+            }
         }
 
         public void start() {
