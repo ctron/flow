@@ -30,129 +30,161 @@
 <span class="sourceLineNo">022</span>    private static final Logger logger = LoggerFactory.getLogger(AnnotatedComponent.class);<a name="line.22"></a>
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>    protected AnnotatedComponent() {<a name="line.24"></a>
-<span class="sourceLineNo">025</span>        registerTriggerIn();<a name="line.25"></a>
-<span class="sourceLineNo">026</span>        registerData();<a name="line.26"></a>
-<span class="sourceLineNo">027</span>    }<a name="line.27"></a>
-<span class="sourceLineNo">028</span><a name="line.28"></a>
-<span class="sourceLineNo">029</span>    private void registerData() {<a name="line.29"></a>
-<span class="sourceLineNo">030</span>        for (final Method method : getClass().getMethods()) {<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>            final DataIn dataIn = method.getAnnotation(DataIn.class);<a name="line.32"></a>
-<span class="sourceLineNo">033</span>            if (dataIn != null) {<a name="line.33"></a>
-<span class="sourceLineNo">034</span>                registerDataIn(method, dataIn);<a name="line.34"></a>
-<span class="sourceLineNo">035</span>            }<a name="line.35"></a>
-<span class="sourceLineNo">036</span><a name="line.36"></a>
-<span class="sourceLineNo">037</span>            final DataOut dataOut = method.getAnnotation(DataOut.class);<a name="line.37"></a>
-<span class="sourceLineNo">038</span>            if (dataOut != null) {<a name="line.38"></a>
-<span class="sourceLineNo">039</span>                registerDataOut(method, dataOut);<a name="line.39"></a>
-<span class="sourceLineNo">040</span>            }<a name="line.40"></a>
-<span class="sourceLineNo">041</span>        }<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    }<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>    private void registerDataIn(final Method method, final DataIn dataIn) {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>        if (method.getParameterCount() != 1) {<a name="line.45"></a>
-<span class="sourceLineNo">046</span>            throw new IllegalStateException(String.format(<a name="line.46"></a>
-<span class="sourceLineNo">047</span>                    "Method '%s' is annotated with @%s, but has %s declared parameters. It must have exactly one.",<a name="line.47"></a>
-<span class="sourceLineNo">048</span>                    method, DataIn.class.getSimpleName(), method.getParameterCount()));<a name="line.48"></a>
-<span class="sourceLineNo">049</span>        }<a name="line.49"></a>
+<span class="sourceLineNo">025</span>        register();<a name="line.25"></a>
+<span class="sourceLineNo">026</span>    }<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>    private void register() {<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        for (final Method method : getClass().getMethods()) {<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>            final DataIn dataIn = method.getAnnotation(DataIn.class);<a name="line.31"></a>
+<span class="sourceLineNo">032</span>            if (dataIn != null) {<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                registerDataIn(method, dataIn);<a name="line.33"></a>
+<span class="sourceLineNo">034</span>            }<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>            final DataOut dataOut = method.getAnnotation(DataOut.class);<a name="line.36"></a>
+<span class="sourceLineNo">037</span>            if (dataOut != null) {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                registerDataOut(method, dataOut);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>            }<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>            final TriggerIn triggerIn = method.getAnnotation(TriggerIn.class);<a name="line.41"></a>
+<span class="sourceLineNo">042</span>            if (triggerIn != null) {<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                registerTriggerIn(method, triggerIn);<a name="line.43"></a>
+<span class="sourceLineNo">044</span>            }<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>            final TriggerOut triggerOut = method.getAnnotation(TriggerOut.class);<a name="line.46"></a>
+<span class="sourceLineNo">047</span>            if (triggerOut != null) {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                registerTriggerOut(method, triggerOut);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>            }<a name="line.49"></a>
 <span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>        String name = method.getName();<a name="line.51"></a>
-<span class="sourceLineNo">052</span>        if (name.startsWith("set") &amp;&amp; name.length() &gt; 3) {<a name="line.52"></a>
-<span class="sourceLineNo">053</span>            name = name.substring(3);<a name="line.53"></a>
-<span class="sourceLineNo">054</span>            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);<a name="line.54"></a>
-<span class="sourceLineNo">055</span>        }<a name="line.55"></a>
-<span class="sourceLineNo">056</span><a name="line.56"></a>
-<span class="sourceLineNo">057</span>        final String finalName = name;<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>        final Supplier&lt;Object&gt; initializer;<a name="line.59"></a>
+<span class="sourceLineNo">051</span>        }<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    }<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>    private void registerDataIn(final Method method, final DataIn dataIn) {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>        if (method.getParameterCount() != 1) {<a name="line.55"></a>
+<span class="sourceLineNo">056</span>            throw new IllegalStateException(String.format(<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                    "Method '%s' is annotated with @%s, but has %s declared parameters. It must have exactly one.",<a name="line.57"></a>
+<span class="sourceLineNo">058</span>                    method, DataIn.class.getSimpleName(), method.getParameterCount()));<a name="line.58"></a>
+<span class="sourceLineNo">059</span>        }<a name="line.59"></a>
 <span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>        if (dataIn.initialize()) {<a name="line.61"></a>
-<span class="sourceLineNo">062</span>            initializer = () -&gt; getInitializer(finalName);<a name="line.62"></a>
-<span class="sourceLineNo">063</span>        } else {<a name="line.63"></a>
-<span class="sourceLineNo">064</span>            initializer = () -&gt; null;<a name="line.64"></a>
+<span class="sourceLineNo">061</span>        String name = method.getName();<a name="line.61"></a>
+<span class="sourceLineNo">062</span>        if (name.startsWith("set") &amp;&amp; name.length() &gt; 3) {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>            name = name.substring(3);<a name="line.63"></a>
+<span class="sourceLineNo">064</span>            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);<a name="line.64"></a>
 <span class="sourceLineNo">065</span>        }<a name="line.65"></a>
 <span class="sourceLineNo">066</span><a name="line.66"></a>
-<span class="sourceLineNo">067</span>        final Class&lt;?&gt; type = method.getParameterTypes()[0];<a name="line.67"></a>
+<span class="sourceLineNo">067</span>        final String finalName = name;<a name="line.67"></a>
 <span class="sourceLineNo">068</span><a name="line.68"></a>
-<span class="sourceLineNo">069</span>        registerDataIn(finalName, initializer, value -&gt; {<a name="line.69"></a>
+<span class="sourceLineNo">069</span>        final Supplier&lt;Object&gt; initializer;<a name="line.69"></a>
 <span class="sourceLineNo">070</span><a name="line.70"></a>
-<span class="sourceLineNo">071</span>            Object targetValue = null;<a name="line.71"></a>
-<span class="sourceLineNo">072</span><a name="line.72"></a>
-<span class="sourceLineNo">073</span>            if (value.getValues() != null) {<a name="line.73"></a>
-<span class="sourceLineNo">074</span>                for (final Object v : value.getValues()) {<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>                    if (v == null &amp;&amp; value.getValues().size() == 1) {<a name="line.76"></a>
-<span class="sourceLineNo">077</span>                        targetValue = null;<a name="line.77"></a>
-<span class="sourceLineNo">078</span>                        break;<a name="line.78"></a>
-<span class="sourceLineNo">079</span>                    }<a name="line.79"></a>
+<span class="sourceLineNo">071</span>        if (dataIn.initialize()) {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>            initializer = () -&gt; getInitializer(finalName);<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        } else {<a name="line.73"></a>
+<span class="sourceLineNo">074</span>            initializer = () -&gt; null;<a name="line.74"></a>
+<span class="sourceLineNo">075</span>        }<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>        final Class&lt;?&gt; type = method.getParameterTypes()[0];<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>        registerDataIn(finalName, initializer, value -&gt; {<a name="line.79"></a>
 <span class="sourceLineNo">080</span><a name="line.80"></a>
-<span class="sourceLineNo">081</span>                    if (type.isAssignableFrom(v.getClass())) {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>                        targetValue = v;<a name="line.82"></a>
-<span class="sourceLineNo">083</span>                        break;<a name="line.83"></a>
-<span class="sourceLineNo">084</span>                    }<a name="line.84"></a>
-<span class="sourceLineNo">085</span>                }<a name="line.85"></a>
-<span class="sourceLineNo">086</span>            }<a name="line.86"></a>
-<span class="sourceLineNo">087</span><a name="line.87"></a>
-<span class="sourceLineNo">088</span>            // a type mismatch will result in a null value<a name="line.88"></a>
-<span class="sourceLineNo">089</span><a name="line.89"></a>
-<span class="sourceLineNo">090</span>            try {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>                method.invoke(AnnotatedComponent.this, targetValue);<a name="line.91"></a>
-<span class="sourceLineNo">092</span>            } catch (final Exception e) {<a name="line.92"></a>
-<span class="sourceLineNo">093</span>                throw new RuntimeException(e);<a name="line.93"></a>
-<span class="sourceLineNo">094</span>            }<a name="line.94"></a>
-<span class="sourceLineNo">095</span>        });<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    }<a name="line.96"></a>
+<span class="sourceLineNo">081</span>            Object targetValue = null;<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>            if (value.getValues() != null) {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                for (final Object v : value.getValues()) {<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>                    if (v == null &amp;&amp; value.getValues().size() == 1) {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>                        targetValue = null;<a name="line.87"></a>
+<span class="sourceLineNo">088</span>                        break;<a name="line.88"></a>
+<span class="sourceLineNo">089</span>                    }<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>                    if (type.isAssignableFrom(v.getClass())) {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                        targetValue = v;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                        break;<a name="line.93"></a>
+<span class="sourceLineNo">094</span>                    }<a name="line.94"></a>
+<span class="sourceLineNo">095</span>                }<a name="line.95"></a>
+<span class="sourceLineNo">096</span>            }<a name="line.96"></a>
 <span class="sourceLineNo">097</span><a name="line.97"></a>
-<span class="sourceLineNo">098</span>    private void registerDataOut(final Method method, final DataOut dataOut) {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>        if (method.getParameterCount() != 0) {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>            throw new IllegalStateException(String.format(<a name="line.100"></a>
-<span class="sourceLineNo">101</span>                    "Method '%s' is annotated with @%s, but has %s declared parameters. It must have none.", method,<a name="line.101"></a>
-<span class="sourceLineNo">102</span>                    DataOut.class.getSimpleName(), method.getParameterCount()));<a name="line.102"></a>
-<span class="sourceLineNo">103</span>        }<a name="line.103"></a>
-<span class="sourceLineNo">104</span><a name="line.104"></a>
-<span class="sourceLineNo">105</span>        String name = method.getName();<a name="line.105"></a>
-<span class="sourceLineNo">106</span>        if (name.startsWith("get") &amp;&amp; name.length() &gt; 3) {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>            name = name.substring(3);<a name="line.107"></a>
-<span class="sourceLineNo">108</span>            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);<a name="line.108"></a>
-<span class="sourceLineNo">109</span>        }<a name="line.109"></a>
-<span class="sourceLineNo">110</span><a name="line.110"></a>
-<span class="sourceLineNo">111</span>        final String finalName = name;<a name="line.111"></a>
-<span class="sourceLineNo">112</span><a name="line.112"></a>
-<span class="sourceLineNo">113</span>        registerDataOut(finalName, () -&gt; {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>            try {<a name="line.114"></a>
-<span class="sourceLineNo">115</span>                return method.invoke(AnnotatedComponent.this);<a name="line.115"></a>
-<span class="sourceLineNo">116</span>            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {<a name="line.116"></a>
-<span class="sourceLineNo">117</span>                throw new RuntimeException("Failed to get @DataOut value through introspection", e);<a name="line.117"></a>
-<span class="sourceLineNo">118</span>            }<a name="line.118"></a>
-<span class="sourceLineNo">119</span>        });<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    }<a name="line.120"></a>
-<span class="sourceLineNo">121</span><a name="line.121"></a>
-<span class="sourceLineNo">122</span>    private void registerTriggerIn() {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>        for (final Method method : getClass().getMethods()) {<a name="line.123"></a>
-<span class="sourceLineNo">124</span>            final TriggerIn triggerIn = method.getAnnotation(TriggerIn.class);<a name="line.124"></a>
-<span class="sourceLineNo">125</span>            if (triggerIn == null) {<a name="line.125"></a>
-<span class="sourceLineNo">126</span>                continue;<a name="line.126"></a>
-<span class="sourceLineNo">127</span>            }<a name="line.127"></a>
-<span class="sourceLineNo">128</span><a name="line.128"></a>
-<span class="sourceLineNo">129</span>            if (method.getParameterCount() != 0) {<a name="line.129"></a>
-<span class="sourceLineNo">130</span>                throw new IllegalStateException(<a name="line.130"></a>
-<span class="sourceLineNo">131</span>                        String.format("Method '%s' is annotated with @%s, but has declared parameters.", method,<a name="line.131"></a>
-<span class="sourceLineNo">132</span>                                TriggerIn.class.getSimpleName()));<a name="line.132"></a>
-<span class="sourceLineNo">133</span>            }<a name="line.133"></a>
-<span class="sourceLineNo">134</span><a name="line.134"></a>
-<span class="sourceLineNo">135</span>            registerTriggerIn(method.getName(), () -&gt; {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>                try {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>                    updateAllData();<a name="line.137"></a>
-<span class="sourceLineNo">138</span>                    method.invoke(AnnotatedComponent.this);<a name="line.138"></a>
-<span class="sourceLineNo">139</span>                } catch (final Exception e) {<a name="line.139"></a>
-<span class="sourceLineNo">140</span>                    logger.info("Trigger In failed", e);<a name="line.140"></a>
-<span class="sourceLineNo">141</span>                    throw new RuntimeException(e);<a name="line.141"></a>
-<span class="sourceLineNo">142</span>                }<a name="line.142"></a>
-<span class="sourceLineNo">143</span>            });<a name="line.143"></a>
-<span class="sourceLineNo">144</span>        }<a name="line.144"></a>
-<span class="sourceLineNo">145</span>    }<a name="line.145"></a>
-<span class="sourceLineNo">146</span><a name="line.146"></a>
-<span class="sourceLineNo">147</span>}<a name="line.147"></a>
+<span class="sourceLineNo">098</span>            // a type mismatch will result in a null value<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>            try {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>                method.invoke(AnnotatedComponent.this, targetValue);<a name="line.101"></a>
+<span class="sourceLineNo">102</span>            } catch (final Exception e) {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>                throw new RuntimeException(e);<a name="line.103"></a>
+<span class="sourceLineNo">104</span>            }<a name="line.104"></a>
+<span class="sourceLineNo">105</span>        });<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    }<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>    private void registerDataOut(final Method method, final DataOut dataOut) {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>        if (method.getParameterCount() != 0) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>            throw new IllegalStateException(String.format(<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                    "Method '%s' is annotated with @%s, but has %s declared parameters. It must have none.", method,<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                    DataOut.class.getSimpleName(), method.getParameterCount()));<a name="line.112"></a>
+<span class="sourceLineNo">113</span>        }<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>        String name = method.getName();<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>        if (name.startsWith("get") &amp;&amp; name.length() &gt; 3) {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>            name = name.substring(3);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        } else if (name.startsWith("is") &amp;&amp; name.length() &gt; 2) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>            name = name.substring(2);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);<a name="line.122"></a>
+<span class="sourceLineNo">123</span>        }<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>        final String finalName = name;<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>        registerDataOut(finalName, () -&gt; {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>            try {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>                return method.invoke(AnnotatedComponent.this);<a name="line.129"></a>
+<span class="sourceLineNo">130</span>            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>                throw new RuntimeException("Failed to get @DataOut value through introspection", e);<a name="line.131"></a>
+<span class="sourceLineNo">132</span>            }<a name="line.132"></a>
+<span class="sourceLineNo">133</span>        });<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    }<a name="line.134"></a>
+<span class="sourceLineNo">135</span><a name="line.135"></a>
+<span class="sourceLineNo">136</span>    private void registerTriggerIn(final Method method, final TriggerIn triggerIn) {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        if (method.getParameterCount() != 0) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>            throw new IllegalStateException(<a name="line.138"></a>
+<span class="sourceLineNo">139</span>                    String.format("Method '%s' is annotated with @%s, but has declared parameters.", method,<a name="line.139"></a>
+<span class="sourceLineNo">140</span>                            TriggerIn.class.getSimpleName()));<a name="line.140"></a>
+<span class="sourceLineNo">141</span>        }<a name="line.141"></a>
+<span class="sourceLineNo">142</span><a name="line.142"></a>
+<span class="sourceLineNo">143</span>        registerTriggerIn(method.getName(), () -&gt; {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>            try {<a name="line.144"></a>
+<span class="sourceLineNo">145</span>                updateAllData();<a name="line.145"></a>
+<span class="sourceLineNo">146</span>                method.invoke(AnnotatedComponent.this);<a name="line.146"></a>
+<span class="sourceLineNo">147</span>            } catch (final Exception e) {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>                logger.info("Trigger In failed", e);<a name="line.148"></a>
+<span class="sourceLineNo">149</span>                throw new RuntimeException(e);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>            }<a name="line.150"></a>
+<span class="sourceLineNo">151</span>        });<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    }<a name="line.152"></a>
+<span class="sourceLineNo">153</span><a name="line.153"></a>
+<span class="sourceLineNo">154</span>    private void registerTriggerOut(final Method method, final TriggerOut triggerOut) {<a name="line.154"></a>
+<span class="sourceLineNo">155</span><a name="line.155"></a>
+<span class="sourceLineNo">156</span>        if (method.getParameterCount() != 1 || method.getParameterTypes()[0].isAssignableFrom(Runtime.class)) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>            throw new IllegalStateException(<a name="line.157"></a>
+<span class="sourceLineNo">158</span>                    String.format(<a name="line.158"></a>
+<span class="sourceLineNo">159</span>                            "Method '%s' is annotated with @%s, but doesn't have exactly one argument of type %s.",<a name="line.159"></a>
+<span class="sourceLineNo">160</span>                            method, TriggerOut.class.getSimpleName(), Runnable.class.getName()));<a name="line.160"></a>
+<span class="sourceLineNo">161</span>        }<a name="line.161"></a>
+<span class="sourceLineNo">162</span><a name="line.162"></a>
+<span class="sourceLineNo">163</span>        String name = method.getName();<a name="line.163"></a>
+<span class="sourceLineNo">164</span>        if (name.startsWith("set") &amp;&amp; name.length() &gt; 3) {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>            name = name.substring(3);<a name="line.165"></a>
+<span class="sourceLineNo">166</span>            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>        }<a name="line.167"></a>
+<span class="sourceLineNo">168</span><a name="line.168"></a>
+<span class="sourceLineNo">169</span>        final TriggerPortOut trigger = registerTriggerOut(name);<a name="line.169"></a>
+<span class="sourceLineNo">170</span>        final Runnable runnable = trigger::execute;<a name="line.170"></a>
+<span class="sourceLineNo">171</span><a name="line.171"></a>
+<span class="sourceLineNo">172</span>        try {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>            method.invoke(this, runnable);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>            throw new RuntimeException("Failed to assing trigger out runnable", e);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        }<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    }<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>}<a name="line.179"></a>
 
 
 
