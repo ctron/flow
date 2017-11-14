@@ -10,7 +10,11 @@
  *******************************************************************************/
 package de.dentrassi.flow.component.mqtt;
 
+import java.time.Duration;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.ComponentContext.SharedResource;
@@ -18,10 +22,16 @@ import de.dentrassi.flow.spi.component.AnnotatedComponent;
 import de.dentrassi.flow.spi.component.DataIn;
 import de.dentrassi.flow.spi.component.DataOut;
 import de.dentrassi.flow.spi.component.TriggerIn;
+import de.dentrassi.flow.spi.component.TriggerPortOut;
 import io.vertx.core.Vertx;
 import io.vertx.mqtt.MqttClientOptions;
 
 public class MqttClient extends AnnotatedComponent {
+
+    private static final Logger logger = LoggerFactory.getLogger(MqttClient.class);
+
+    private final TriggerPortOut connectionEstablished;
+    private final TriggerPortOut connectionLost;
 
     private String host;
     private int port;
@@ -32,10 +42,19 @@ public class MqttClient extends AnnotatedComponent {
     private SharedResource<Vertx> vertx;
     private io.vertx.mqtt.MqttClient client;
 
+    private boolean started;
+    private boolean connected;
+
+    private final long nextSleepMultiplier = 2;
+    private final Duration nextSleepMax = Duration.ofMinutes(1);
+
+    private volatile Duration nextSleep = Duration.ZERO;
+
     public MqttClient() {
         super();
 
-        registerTriggerOut("connected");
+        this.connectionEstablished = registerTriggerOut("connectionEstablished");
+        this.connectionLost = registerTriggerOut("connectionLost");
     }
 
     @Override
@@ -43,13 +62,20 @@ public class MqttClient extends AnnotatedComponent {
         super.start(initializers, context);
         this.vertx = context.createSharedResource(MqttClient.class, "vertx", Vertx.class, () -> Vertx.vertx(),
                 Vertx::close);
+        this.started = true;
     }
 
     @Override
     public void stop() {
+        this.started = false;
         disconnect();
         this.vertx.close();
         super.stop();
+    }
+
+    @DataOut
+    public boolean isConnected() {
+        return this.connected;
     }
 
     @TriggerIn
@@ -67,10 +93,64 @@ public class MqttClient extends AnnotatedComponent {
         options.setUsername(this.username);
         options.setPassword(this.password);
 
-        this.client = io.vertx.mqtt.MqttClient.create(this.vertx.get(), options);
+        this.client = io.vertx.mqtt.MqttClient.create(this.vertx.get(), options)
+                .closeHandler(v -> {
+                    runOnContext(this::connectionLost);
+                });
+        performConnect();
+    }
+
+    private void performConnect() {
+        logger.info("Trigger connect");
+
+        if (!this.started) {
+            logger.info("Cancel connect attempt. We are stopped.");
+            return;
+        }
+
+        final Duration sleep = nextSleep();
+        logger.info("Reconnect delay: {}", sleep);
+
+        if (!sleep.isZero()) {
+            this.vertx.get().setTimer(sleep.toMillis(), timer -> {
+                doConnect();
+            });
+        } else {
+            doConnect();
+        }
+    }
+
+    private void doConnect() {
         this.client.connect(this.port, this.host, connected -> {
-            connected();
+            if (connected.succeeded()) {
+                runOnContext(this::connectionEstablished);
+            }
+            // "else" is handled by close handler
         });
+    }
+
+    private Duration nextSleep() {
+        final Duration result = this.nextSleep;
+
+        Duration next = this.nextSleep;
+
+        // start incrementing
+
+        if (next.isZero()) {
+            next = Duration.ofMillis(100);
+        } else {
+            next = next.multipliedBy(this.nextSleepMultiplier);
+        }
+
+        // check if over max
+
+        if (next.compareTo(this.nextSleepMax) <= 0) {
+            this.nextSleep = next;
+        } else {
+            this.nextSleep = this.nextSleepMax;
+        }
+
+        return result;
     }
 
     @TriggerIn
@@ -78,8 +158,27 @@ public class MqttClient extends AnnotatedComponent {
         this.client.disconnect();
     }
 
-    private void connected() {
-        triggerOut("connected");
+    private void connectionLost() {
+        logger.info("Connection lost - previousState: {}", this.connected);
+        if (this.connected) {
+            this.connected = false;
+            this.connectionLost.execute();
+        } else {
+            logger.info("Receive lost event when already disconnected");
+        }
+
+        performConnect();
+    }
+
+    private void connectionEstablished() {
+        logger.info("Connection established - previousState: {}", this.connected);
+        if (!this.connected) {
+            this.nextSleep = Duration.ZERO;
+            this.connected = true;
+            this.connectionEstablished.execute();
+        } else {
+            logger.error("Receive established event when already connected");
+        }
     }
 
     @DataIn
@@ -111,4 +210,5 @@ public class MqttClient extends AnnotatedComponent {
     public io.vertx.mqtt.MqttClient getClient() {
         return this.client;
     }
+
 }
