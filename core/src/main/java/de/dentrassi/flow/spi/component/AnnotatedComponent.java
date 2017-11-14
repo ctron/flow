@@ -22,11 +22,10 @@ public abstract class AnnotatedComponent extends AbstractComponent {
     private static final Logger logger = LoggerFactory.getLogger(AnnotatedComponent.class);
 
     protected AnnotatedComponent() {
-        registerTriggerIn();
-        registerData();
+        register();
     }
 
-    private void registerData() {
+    private void register() {
         for (final Method method : getClass().getMethods()) {
 
             final DataIn dataIn = method.getAnnotation(DataIn.class);
@@ -38,6 +37,17 @@ public abstract class AnnotatedComponent extends AbstractComponent {
             if (dataOut != null) {
                 registerDataOut(method, dataOut);
             }
+
+            final TriggerIn triggerIn = method.getAnnotation(TriggerIn.class);
+            if (triggerIn != null) {
+                registerTriggerIn(method, triggerIn);
+            }
+
+            final TriggerOut triggerOut = method.getAnnotation(TriggerOut.class);
+            if (triggerOut != null) {
+                registerTriggerOut(method, triggerOut);
+            }
+
         }
     }
 
@@ -103,8 +113,12 @@ public abstract class AnnotatedComponent extends AbstractComponent {
         }
 
         String name = method.getName();
+
         if (name.startsWith("get") && name.length() > 3) {
             name = name.substring(3);
+            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
+        } else if (name.startsWith("is") && name.length() > 2) {
+            name = name.substring(2);
             name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
         }
 
@@ -119,28 +133,46 @@ public abstract class AnnotatedComponent extends AbstractComponent {
         });
     }
 
-    private void registerTriggerIn() {
-        for (final Method method : getClass().getMethods()) {
-            final TriggerIn triggerIn = method.getAnnotation(TriggerIn.class);
-            if (triggerIn == null) {
-                continue;
-            }
+    private void registerTriggerIn(final Method method, final TriggerIn triggerIn) {
+        if (method.getParameterCount() != 0) {
+            throw new IllegalStateException(
+                    String.format("Method '%s' is annotated with @%s, but has declared parameters.", method,
+                            TriggerIn.class.getSimpleName()));
+        }
 
-            if (method.getParameterCount() != 0) {
-                throw new IllegalStateException(
-                        String.format("Method '%s' is annotated with @%s, but has declared parameters.", method,
-                                TriggerIn.class.getSimpleName()));
+        registerTriggerIn(method.getName(), () -> {
+            try {
+                updateAllData();
+                method.invoke(AnnotatedComponent.this);
+            } catch (final Exception e) {
+                logger.info("Trigger In failed", e);
+                throw new RuntimeException(e);
             }
+        });
+    }
 
-            registerTriggerIn(method.getName(), () -> {
-                try {
-                    updateAllData();
-                    method.invoke(AnnotatedComponent.this);
-                } catch (final Exception e) {
-                    logger.info("Trigger In failed", e);
-                    throw new RuntimeException(e);
-                }
-            });
+    private void registerTriggerOut(final Method method, final TriggerOut triggerOut) {
+
+        if (method.getParameterCount() != 1 || method.getParameterTypes()[0].isAssignableFrom(Runtime.class)) {
+            throw new IllegalStateException(
+                    String.format(
+                            "Method '%s' is annotated with @%s, but doesn't have exactly one argument of type %s.",
+                            method, TriggerOut.class.getSimpleName(), Runnable.class.getName()));
+        }
+
+        String name = method.getName();
+        if (name.startsWith("set") && name.length() > 3) {
+            name = name.substring(3);
+            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
+        }
+
+        final TriggerPortOut trigger = registerTriggerOut(name);
+        final Runnable runnable = trigger::execute;
+
+        try {
+            method.invoke(this, runnable);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new RuntimeException("Failed to assing trigger out runnable", e);
         }
     }
 

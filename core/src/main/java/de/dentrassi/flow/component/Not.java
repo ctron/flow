@@ -8,18 +8,19 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow.spi.component;
+package de.dentrassi.flow.component;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import de.dentrassi.flow.spi.component.SimpleTransformationComponent;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+public class Not extends SimpleTransformationComponent<Boolean, Boolean> {
 
-@Target(METHOD)
-@Retention(RUNTIME)
-@Documented
-public @interface TriggerIn {
+    public Not() {
+        super(Boolean.class, Boolean.class);
+    }
+
+    @Override
+    public Boolean convertValue(final Boolean input) {
+        return !input;
+    }
 
 }

@@ -8,18 +8,19 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow.spi.component;
+package de.dentrassi.flow.component;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import de.dentrassi.flow.spi.component.SimpleTransformationComponent;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+public class IsNull extends SimpleTransformationComponent<Object, Boolean> {
 
-@Target(METHOD)
-@Retention(RUNTIME)
-@Documented
-public @interface TriggerIn {
+    public IsNull() {
+        super(Object.class, Boolean.class);
+    }
+
+    @Override
+    public Boolean convertValue(final Object input) {
+        return input == null;
+    }
 
 }
