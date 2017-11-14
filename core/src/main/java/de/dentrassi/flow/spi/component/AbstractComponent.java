@@ -31,14 +31,20 @@ public abstract class AbstractComponent implements Component {
     private final Map<String, DataPortOut> outData = new HashMap<>();
     private final Map<String, DataPortIn> inData = new HashMap<>();
     private Map<String, String> initializers;
+    private ComponentContext context;
 
     @Override
     public void start(final Map<String, String> initializers, final ComponentContext context) {
         this.initializers = initializers;
+        this.context = context;
     }
 
     @Override
     public void stop() {
+    }
+
+    protected void runOnContext(final Runnable runnable) {
+        this.context.run(runnable);
     }
 
     protected String getInitializer(final String key) {
@@ -75,8 +81,10 @@ public abstract class AbstractComponent implements Component {
         return defaultValue;
     }
 
-    protected void registerTriggerOut(final String portName) {
-        this.outTriggers.put(portName, new TriggerPortOut());
+    protected TriggerPortOut registerTriggerOut(final String portName) {
+        final TriggerPortOut result = new TriggerPortOut();
+        this.outTriggers.put(portName, result);
+        return result;
     }
 
     protected void registerTriggerIn(final String portName, final Runnable runnable) {
