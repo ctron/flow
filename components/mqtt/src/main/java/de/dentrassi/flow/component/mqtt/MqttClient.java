@@ -124,8 +124,10 @@ public class MqttClient extends AnnotatedComponent {
         this.client.connect(this.port, this.host, connected -> {
             if (connected.succeeded()) {
                 runOnContext(this::connectionEstablished);
+            } else {
+                logger.warn("Failed to connect", connected.cause());
+                // "else" is handled by close handler
             }
-            // "else" is handled by close handler
         });
     }
 
