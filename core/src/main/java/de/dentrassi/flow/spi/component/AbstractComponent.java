@@ -16,6 +16,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dentrassi.flow.Component;
 import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.spi.DataPlugIn;
@@ -24,6 +27,8 @@ import de.dentrassi.flow.spi.TriggerPlugIn;
 import de.dentrassi.flow.spi.TriggerPlugOut;
 
 public abstract class AbstractComponent implements Component {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbstractComponent.class);
 
     private final Map<String, TriggerPortOut> outTriggers = new HashMap<>();
     private final Map<String, TriggerPortIn> inTriggers = new HashMap<>();
@@ -97,8 +102,13 @@ public abstract class AbstractComponent implements Component {
     }
 
     protected void updateAllData() {
-        for (final DataPortIn in : this.inData.values()) {
-            in.update();
+        for (final Map.Entry<String, DataPortIn> in : this.inData.entrySet()) {
+            try {
+                in.getValue().update();
+            } catch (final Exception e) {
+                logger.warn("Failed to update port: {}", in.getKey(), e);
+                throw e;
+            }
         }
     }
 
