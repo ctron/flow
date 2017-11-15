@@ -49,4 +49,10 @@ public final class ValueRequest {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder("[ValueRequest: ").append(this.types).append("]")
+                .toString();
+    }
+
 }
