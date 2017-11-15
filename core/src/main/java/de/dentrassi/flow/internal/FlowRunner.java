@@ -165,6 +165,7 @@ public class FlowRunner implements FlowContext, ComponentContext {
 
             final FlowDataConnection connection = new FlowDataConnection(
                     requiredType != null ? requiredType : Object.class);
+
             outShell.addDataOutConnection(out.getPortName(), connection.out());
             inShell.addDataInConnection(in.getPortName(), connection.in());
 
