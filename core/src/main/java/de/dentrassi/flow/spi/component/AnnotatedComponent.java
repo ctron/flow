@@ -80,19 +80,10 @@ public abstract class AnnotatedComponent extends AbstractComponent {
 
             Object targetValue = null;
 
-            if (value.getValues() != null) {
-                for (final Object v : value.getValues()) {
-
-                    if (v == null && value.getValues().size() == 1) {
-                        targetValue = null;
-                        break;
-                    }
-
-                    if (type.isAssignableFrom(v.getClass())) {
-                        targetValue = v;
-                        break;
-                    }
-                }
+            try {
+                targetValue = value.getValueAs(type);
+            } catch (final Exception e) {
+                logger.info("Failed to convert to target value", e);
             }
 
             // a type mismatch will result in a null value
@@ -145,7 +136,7 @@ public abstract class AnnotatedComponent extends AbstractComponent {
                 updateAllData();
                 method.invoke(AnnotatedComponent.this);
             } catch (final Exception e) {
-                logger.info("Trigger In failed", e);
+                logger.warn("Trigger In failed", e);
                 throw new RuntimeException(e);
             }
         });
