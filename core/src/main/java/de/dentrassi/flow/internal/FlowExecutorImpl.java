@@ -82,7 +82,6 @@ public class FlowExecutorImpl implements FlowExecutor {
                 }
             } catch (final Exception e) {
                 logger.warn("Failed to process task", e);
-                continue;
             }
         }
 
