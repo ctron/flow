@@ -12,7 +12,7 @@ package de.dentrassi.flow.spi.component;
 
 public class SimpleSingleDataPortIn extends AbstractSingleDataPortIn {
 
-    private ValueResult value;
+    private ValueResult value = ValueResult.of();
 
     private Throwable error;
 
