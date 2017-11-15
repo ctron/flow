@@ -12,6 +12,7 @@ package de.dentrassi.flow.spi.component;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -20,6 +21,7 @@ public class DataPortOut {
     private final Function<ValueRequest, ValueResult> supplier;
 
     public DataPortOut(final Function<ValueRequest, ValueResult> supplier) {
+        Objects.requireNonNull(supplier);
         this.supplier = supplier;
     }
 
