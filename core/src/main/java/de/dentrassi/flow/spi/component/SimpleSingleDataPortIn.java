@@ -26,7 +26,7 @@ public class SimpleSingleDataPortIn extends AbstractSingleDataPortIn {
                 this.error = e;
             }
         } else {
-            this.value = null;
+            this.value = ValueResult.of();
         }
     }
 
