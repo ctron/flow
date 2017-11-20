@@ -62,6 +62,8 @@ public class CsvTimeSeriesReader extends AbstractComponent {
     private Long durationMultipliedBy;
     private Long durationDividedBy;
 
+    private Instant nextUpdate;
+
     public CsvTimeSeriesReader() {
         registerTriggerIn("open", this::open);
         registerTriggerIn("close", this::close);
@@ -249,6 +251,17 @@ public class CsvTimeSeriesReader extends AbstractComponent {
         }
 
         logger.debug("Schedule next read in: {}", duration);
+
+        final Instant now = Instant.now();
+
+        if (this.nextUpdate != null) {
+            final Duration diff = Duration.between(this.nextUpdate, now);
+            final Duration corrected = duration.minus(diff);
+            logger.debug("Correcting duration - {} -> {} (diff: {})", duration, corrected, diff);
+            duration = corrected;
+        }
+
+        this.nextUpdate = now.plus(duration);
 
         Durations.consume(duration,
                 (delay, unit) -> this.executor.get().schedule(() -> this.context.run(this::readNext), delay, unit));
