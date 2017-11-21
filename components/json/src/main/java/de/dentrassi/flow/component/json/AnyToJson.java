@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import de.dentrassi.flow.ComponentContext;
+import de.dentrassi.flow.spi.component.EventContext;
 import de.dentrassi.flow.spi.component.SimpleTransformationComponent;
 
 public class AnyToJson extends SimpleTransformationComponent<Object, String> {
@@ -27,8 +28,9 @@ public class AnyToJson extends SimpleTransformationComponent<Object, String> {
     }
 
     @Override
-    public void start(final Map<String, String> initializers, final ComponentContext context) {
-        super.start(initializers, context);
+    public void start(final Map<String, String> initializers, final ComponentContext context,
+            final EventContext event) {
+        super.start(initializers, context, event);
         this.gson = new GsonBuilder().create();
     }
 

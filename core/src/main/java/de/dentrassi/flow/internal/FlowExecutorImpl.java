@@ -17,11 +17,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dentrassi.flow.Flow;
-
 public class FlowExecutorImpl implements FlowExecutor {
 
-    private static final Logger logger = LoggerFactory.getLogger(Flow.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlowExecutorImpl.class);
 
     private static final AtomicLong THREAD_COUNTER = new AtomicLong();
 
@@ -84,7 +82,6 @@ public class FlowExecutorImpl implements FlowExecutor {
                 }
             } catch (final Exception e) {
                 logger.warn("Failed to process task", e);
-                continue;
             }
         }
 

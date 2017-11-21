@@ -21,6 +21,7 @@ import de.dentrassi.flow.ComponentContext.SharedResource;
 import de.dentrassi.flow.spi.component.AnnotatedComponent;
 import de.dentrassi.flow.spi.component.DataIn;
 import de.dentrassi.flow.spi.component.DataOut;
+import de.dentrassi.flow.spi.component.EventContext;
 import de.dentrassi.flow.spi.component.TriggerIn;
 import de.dentrassi.flow.spi.component.TriggerPortOut;
 import io.vertx.core.Vertx;
@@ -58,8 +59,9 @@ public class MqttClient extends AnnotatedComponent {
     }
 
     @Override
-    public void start(final Map<String, String> initializers, final ComponentContext context) {
-        super.start(initializers, context);
+    public void start(final Map<String, String> initializers, final ComponentContext context,
+            final EventContext event) {
+        super.start(initializers, context, event);
         this.vertx = context.createSharedResource(MqttClient.class, "vertx", Vertx.class, () -> Vertx.vertx(),
                 Vertx::close);
         this.started = true;

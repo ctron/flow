@@ -8,14 +8,8 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow;
+package de.dentrassi.flow.event;
 
-public interface ComponentInstance {
-    public String getId();
-
-    public String getType();
-
-    public default Port port(final String portName) {
-        return Port.port(this, portName);
-    }
+public enum ConnectionType {
+    DATA, TRIGGER
 }

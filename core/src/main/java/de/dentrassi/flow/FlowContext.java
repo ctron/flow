@@ -19,6 +19,10 @@ public interface FlowContext extends ComponentInstance {
         return createComponent(null, componentType, initializers);
     }
 
+    public default ComponentInstance createComponent(final String componentType) {
+        return createComponent(null, componentType, null);
+    }
+
     public ComponentInstance createComponent(String id, String componentType, Map<String, String> initializers);
 
     public Connection connectTrigger(Port out, Port in);

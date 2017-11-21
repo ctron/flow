@@ -13,6 +13,8 @@ package de.dentrassi.flow;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import de.dentrassi.flow.event.FlowListener;
+import de.dentrassi.flow.event.ListenerHandle;
 import de.dentrassi.flow.internal.FlowExecutorImpl;
 import de.dentrassi.flow.internal.FlowRunner;
 import de.dentrassi.flow.spi.type.ComponentFactory;
@@ -48,6 +50,11 @@ public class Flow implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
+        this.runner.close();
         this.executor.stop();
+    }
+
+    public ListenerHandle registerListener(final boolean initialize, final FlowListener listener) {
+        return this.runner.registerListener(initialize, listener);
     }
 }

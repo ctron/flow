@@ -8,14 +8,19 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow;
+package de.dentrassi.flow.component;
 
-public interface ComponentInstance {
-    public String getId();
+import de.dentrassi.flow.spi.component.SimpleTransformationComponent;
 
-    public String getType();
+public class StringToDouble extends SimpleTransformationComponent<String, Double> {
 
-    public default Port port(final String portName) {
-        return Port.port(this, portName);
+    public StringToDouble() {
+        super(String.class, Double.class);
     }
+
+    @Override
+    public Double convertValue(final String input) {
+        return Double.parseDouble(input);
+    }
+
 }

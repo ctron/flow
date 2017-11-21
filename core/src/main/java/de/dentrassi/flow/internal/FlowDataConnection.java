@@ -10,6 +10,7 @@
  *******************************************************************************/
 package de.dentrassi.flow.internal;
 
+import de.dentrassi.flow.Port;
 import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.component.DataPortOut;
@@ -34,11 +35,17 @@ public class FlowDataConnection {
         }
     };
 
+    private final Port outPort;
+
+    private final Port inPort;
+
     private final ValueRequest request;
 
     protected DataPortOut supplier;
 
-    public FlowDataConnection(final Class<?> requiredType) {
+    public FlowDataConnection(final Port out, final Port in, final Class<?> requiredType) {
+        this.outPort = out;
+        this.inPort = in;
         this.request = ValueRequest.of(requiredType);
     }
 
@@ -46,12 +53,19 @@ public class FlowDataConnection {
         return this.supplier.get(this.request);
     }
 
-    public DataPlugIn in() {
-        return this.in;
-    }
-
     public DataPlugOut out() {
         return this.out;
     }
 
+    public DataPlugIn in() {
+        return this.in;
+    }
+
+    public Port getOutPort() {
+        return this.outPort;
+    }
+
+    public Port getInPort() {
+        return this.inPort;
+    }
 }

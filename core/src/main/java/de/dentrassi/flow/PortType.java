@@ -10,12 +10,6 @@
  *******************************************************************************/
 package de.dentrassi.flow;
 
-public interface ComponentInstance {
-    public String getId();
-
-    public String getType();
-
-    public default Port port(final String portName) {
-        return Port.port(this, portName);
-    }
+public enum PortType {
+    DATA_IN, DATA_OUT, TRIGGER_IN, TRIGGER_OUT;
 }

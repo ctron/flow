@@ -20,11 +20,12 @@ public class DataPortOut {
     private final Function<ValueRequest, ValueResult> supplier;
 
     public DataPortOut(final Function<ValueRequest, ValueResult> supplier) {
+        requireNonNull(supplier);
         this.supplier = supplier;
     }
 
     public ValueResult get(final ValueRequest request) {
-        return this.supplier.apply(request);
+        return requireNonNull(this.supplier.apply(request));
     }
 
     public static Function<ValueRequest, ValueResult> singleType(final Supplier<?> supplier,

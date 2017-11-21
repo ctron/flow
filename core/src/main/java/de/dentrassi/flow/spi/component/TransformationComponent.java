@@ -10,7 +10,12 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi.component;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class TransformationComponent extends AbstractComponent {
+
+    private static final Logger logger = LoggerFactory.getLogger(TransformationComponent.class);
 
     private final SimpleSingleDataPortIn input;
 
@@ -29,14 +34,18 @@ public abstract class TransformationComponent extends AbstractComponent {
 
         final ValueResult value = this.input.getValue();
         if (value.isError()) {
+            logger.debug("Source is errored");
             return value;
         }
 
         // trigger conversion
 
         try {
-            return convert(request, value);
+            final ValueResult result = convert(request, value);
+            logger.debug("Transformed[{}] - {} / {} = {}", getClass(), request, value, result);
+            return result;
         } catch (final Exception e) {
+            logger.info("Failed to transform value", e);
             return ValueResult.ofError(e);
         }
     }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.dentrassi.flow</groupId>
+        <artifactId>flow-components</artifactId>
+        <version>0.0.5-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>flow-component-kapua</artifactId>
+    <packaging>bundle</packaging>
+
+    <name>Flow :: Component :: Kapua</name>
+    <description>Components for working with Eclipse Kapua™</description>
+
+    <properties>
+        <kapua.version>0.3.0</kapua.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>de.dentrassi.flow</groupId>
+            <artifactId>flow-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.kapua</groupId>
+            <artifactId>kapua-client-gateway-profile-kura</artifactId>
+            <version>${kapua.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.kapua</groupId>
+            <artifactId>kapua-client-gateway-provider-fuse</artifactId>
+            <version>${kapua.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

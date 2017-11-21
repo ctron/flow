@@ -34,6 +34,7 @@ import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.ComponentContext.SharedResource;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.component.AbstractComponent;
+import de.dentrassi.flow.spi.component.EventContext;
 import de.dentrassi.flow.spi.component.ValueRequest;
 import de.dentrassi.flow.spi.component.ValueResult;
 import io.glutamate.time.Durations;
@@ -62,6 +63,8 @@ public class CsvTimeSeriesReader extends AbstractComponent {
     private Long durationMultipliedBy;
     private Long durationDividedBy;
 
+    private Instant nextUpdate;
+
     public CsvTimeSeriesReader() {
         registerTriggerIn("open", this::open);
         registerTriggerIn("close", this::close);
@@ -86,8 +89,10 @@ public class CsvTimeSeriesReader extends AbstractComponent {
     }
 
     @Override
-    public void start(final Map<String, String> initializers, final ComponentContext context) {
-        super.start(initializers, context);
+    public void start(final Map<String, String> initializers, final ComponentContext context,
+            final EventContext event) {
+
+        super.start(initializers, context, event);
 
         this.context = context;
         this.executor = context.createSharedResource(getClass().getName(), "executor", ScheduledExecutorService.class,
@@ -249,6 +254,17 @@ public class CsvTimeSeriesReader extends AbstractComponent {
         }
 
         logger.debug("Schedule next read in: {}", duration);
+
+        final Instant now = Instant.now();
+
+        if (this.nextUpdate != null) {
+            final Duration diff = Duration.between(this.nextUpdate, now);
+            final Duration corrected = duration.minus(diff);
+            logger.debug("Correcting duration - {} -> {} (diff: {})", duration, corrected, diff);
+            duration = corrected;
+        }
+
+        this.nextUpdate = now.plus(duration);
 
         Durations.consume(duration,
                 (delay, unit) -> this.executor.get().schedule(() -> this.context.run(this::readNext), delay, unit));

@@ -48,7 +48,7 @@ public class ClassLoaderComponentFactory implements ComponentFactory {
             logger.debug("Resolved to: {}", clazz);
             typeProvider.accept(new ClassTypeProvider(clazz));
         } catch (final Exception e) {
-            logger.info("Failed to load class", e);
+            logger.warn("Failed to load class", e);
         }
         return HANDLE;
     }

@@ -16,6 +16,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.dentrassi.flow.Port;
 import de.dentrassi.flow.spi.TriggerPlugIn;
 import de.dentrassi.flow.spi.TriggerPlugOut;
 
@@ -46,9 +47,15 @@ public class FlowTriggerConnection {
 
     private final Set<Runnable> listeners = new HashSet<>();
 
+    private final Port outPort;
+
+    private final Port inPort;
+
     private final FlowExecutor executor;
 
-    public FlowTriggerConnection(final FlowExecutor executor) {
+    public FlowTriggerConnection(final Port out, final Port in, final FlowExecutor executor) {
+        this.outPort = out;
+        this.inPort = in;
         this.executor = executor;
     }
 
@@ -71,6 +78,14 @@ public class FlowTriggerConnection {
 
     public TriggerPlugOut out() {
         return this.out;
+    }
+
+    public Port getOutPort() {
+        return this.outPort;
+    }
+
+    public Port getInPort() {
+        return this.inPort;
     }
 
 }

@@ -13,6 +13,7 @@ package de.dentrassi.flow.internal;
 import java.util.Map;
 
 import de.dentrassi.flow.ComponentContext;
+import de.dentrassi.flow.ComponentInstance;
 import de.dentrassi.flow.FlowContext;
 import de.dentrassi.flow.spi.type.ComponentFactory;
 import de.dentrassi.flow.spi.type.ComponentFactory.LookupHandle;
@@ -21,22 +22,20 @@ import de.dentrassi.flow.spi.type.ComponentTypeProvider;
 public class FactoryComponentShell extends AbstractComponentShell {
 
     private final ComponentFactory componentFactory;
-    private final String componentType;
     private LookupHandle lookupHandle;
 
-    public FactoryComponentShell(final ComponentFactory componentFactory, final String componentType,
+    public FactoryComponentShell(final ComponentFactory componentFactory, final ComponentInstance component,
             final Map<String, String> initializers) {
 
-        super(initializers);
+        super(component, initializers);
 
         this.componentFactory = componentFactory;
-        this.componentType = componentType;
     }
 
     @Override
     public void start(final FlowContext flowContext, final ComponentContext componentContext) {
         super.start(flowContext, componentContext);
-        this.lookupHandle = this.componentFactory.lookup(this.componentType, this::typeProviderChanged);
+        this.lookupHandle = this.componentFactory.lookup(getComponent().getType(), this::typeProviderChanged);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class FactoryComponentShell extends AbstractComponentShell {
             setInstance(null);
         } else {
             try {
-                setInstance(typeProvider.createType(this.componentType));
+                setInstance(typeProvider.createType(getComponent().getType()));
             } catch (final Exception e) {
                 setErrorInstance(e);
             }
