@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import de.dentrassi.flow.Component;
 import de.dentrassi.flow.ComponentContext;
+import de.dentrassi.flow.PortType;
 import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.TriggerPlugIn;
@@ -32,16 +33,25 @@ public abstract class AbstractComponent implements Component {
 
     private final Map<String, TriggerPortOut> outTriggers = new HashMap<>();
     private final Map<String, TriggerPortIn> inTriggers = new HashMap<>();
-
     private final Map<String, DataPortOut> outData = new HashMap<>();
     private final Map<String, DataPortIn> inData = new HashMap<>();
+
     private Map<String, String> initializers;
     private ComponentContext context;
 
+    private EventContext event;
+
     @Override
-    public void start(final Map<String, String> initializers, final ComponentContext context) {
+    public void start(final Map<String, String> initializers, final ComponentContext context,
+            final EventContext event) {
         this.initializers = initializers;
         this.context = context;
+        this.event = event;
+
+        this.outTriggers.keySet().forEach(name -> emitAddPort(name, PortType.TRIGGER_OUT));
+        this.inTriggers.keySet().forEach(name -> emitAddPort(name, PortType.TRIGGER_IN));
+        this.outData.keySet().forEach(name -> emitAddPort(name, PortType.DATA_OUT));
+        this.inData.keySet().forEach(name -> emitAddPort(name, PortType.DATA_IN));
     }
 
     @Override
@@ -86,14 +96,26 @@ public abstract class AbstractComponent implements Component {
         return defaultValue;
     }
 
+    private void emitAddPort(final String name, final PortType type) {
+        if (this.event != null) {
+            this.event.addedPort(name, type);
+        }
+    }
+
     protected TriggerPortOut registerTriggerOut(final String portName) {
         final TriggerPortOut result = new TriggerPortOut();
         this.outTriggers.put(portName, result);
+
+        emitAddPort(portName, PortType.TRIGGER_OUT);
+
         return result;
     }
 
     protected void registerTriggerIn(final String portName, final Runnable runnable) {
+
         this.inTriggers.put(portName, new TriggerPortIn(runnable));
+
+        emitAddPort(portName, PortType.TRIGGER_IN);
     }
 
     protected void triggerOut(final String portName) {
@@ -130,14 +152,17 @@ public abstract class AbstractComponent implements Component {
 
     protected void registerDataOut(final String portName, final Supplier<?> supplier) {
         this.outData.put(portName, new DataPortOut(DataPortOut.singleType(supplier, () -> null)));
+        emitAddPort(portName, PortType.DATA_OUT);
     }
 
     protected void registerDataOut(final String portName, final Function<ValueRequest, ValueResult> supplier) {
         this.outData.put(portName, new DataPortOut(supplier));
+        emitAddPort(portName, PortType.DATA_OUT);
     }
 
     protected <T extends DataPortIn> T registerDataIn(final String portName, final T port) {
         this.inData.put(portName, port);
+        emitAddPort(portName, PortType.DATA_IN);
         return port;
     }
 

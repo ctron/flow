@@ -34,6 +34,7 @@ import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.ComponentContext.SharedResource;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.component.AbstractComponent;
+import de.dentrassi.flow.spi.component.EventContext;
 import de.dentrassi.flow.spi.component.ValueRequest;
 import de.dentrassi.flow.spi.component.ValueResult;
 import io.glutamate.time.Durations;
@@ -88,8 +89,10 @@ public class CsvTimeSeriesReader extends AbstractComponent {
     }
 
     @Override
-    public void start(final Map<String, String> initializers, final ComponentContext context) {
-        super.start(initializers, context);
+    public void start(final Map<String, String> initializers, final ComponentContext context,
+            final EventContext event) {
+
+        super.start(initializers, context, event);
 
         this.context = context;
         this.executor = context.createSharedResource(getClass().getName(), "executor", ScheduledExecutorService.class,

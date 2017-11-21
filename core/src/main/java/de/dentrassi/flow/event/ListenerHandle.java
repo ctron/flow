@@ -8,14 +8,14 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow;
+package de.dentrassi.flow.event;
 
-public interface ComponentInstance {
-    public String getId();
+import java.util.concurrent.CompletableFuture;
 
-    public String getType();
+public interface ListenerHandle extends AutoCloseable {
 
-    public default Port port(final String portName) {
-        return Port.port(this, portName);
-    }
+    @Override
+    public void close();
+
+    public CompletableFuture<Void> initialized();
 }

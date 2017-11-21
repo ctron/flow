@@ -12,27 +12,46 @@ package de.dentrassi.flow.internal;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dentrassi.flow.ComponentContext;
+import de.dentrassi.flow.ComponentContext.SharedResource;
 import de.dentrassi.flow.ComponentInstance;
 import de.dentrassi.flow.Connection;
 import de.dentrassi.flow.FlowContext;
 import de.dentrassi.flow.Port;
+import de.dentrassi.flow.event.FlowEvent;
+import de.dentrassi.flow.event.FlowListener;
+import de.dentrassi.flow.event.ListenerHandle;
 import de.dentrassi.flow.spi.type.ComponentFactory;
 
-public class FlowRunner implements FlowContext, ComponentContext {
+public class FlowRunner implements FlowContext {
+
+    private static final Logger logger = LoggerFactory.getLogger(FlowRunner.class);
+
+    private static final AtomicLong EVENT_THREAD_COUNTER = new AtomicLong();
 
     private final Map<String, ComponentShell> components = new HashMap<>();
     private final Map<String, FlowDataConnection> dataConnections = new HashMap<>();
     private final Map<String, FlowTriggerConnection> triggerConnections = new HashMap<>();
+
+    private final List<ListenerEntry> listeners = new ArrayList<>();
 
     private final FlowExecutor executor;
 
@@ -41,6 +60,7 @@ public class FlowRunner implements FlowContext, ComponentContext {
     private boolean running;
 
     private final FlowRunnerComponent contextComponent = new FlowRunnerComponent(this);
+    private final ExecutorService eventExecutor;
 
     private static class ComponentInstanceImpl implements ComponentInstance {
 
@@ -55,6 +75,11 @@ public class FlowRunner implements FlowContext, ComponentContext {
         @Override
         public String getId() {
             return this.id;
+        }
+
+        @Override
+        public String getType() {
+            return this.type;
         }
 
         @Override
@@ -83,7 +108,17 @@ public class FlowRunner implements FlowContext, ComponentContext {
         this.executor = executor;
         this.componentFactory = componentFactory;
 
-        this.components.put("flow", new InstanceComponentShell(this.contextComponent));
+        this.components.put("flow",
+                new InstanceComponentShell(new ComponentInstanceImpl("flow", "flow"), this.contextComponent));
+
+        this.eventExecutor = Executors
+                .newSingleThreadExecutor(r -> {
+                    return new Thread(r, "flow-events-" + EVENT_THREAD_COUNTER.getAndIncrement());
+                });
+    }
+
+    public void close() {
+        this.eventExecutor.shutdown();
     }
 
     @Override
@@ -92,9 +127,16 @@ public class FlowRunner implements FlowContext, ComponentContext {
     }
 
     @Override
+    public String getType() {
+        return "flow";
+    }
+
+    @Override
     public ComponentInstance createComponent(String id, final String componentType, Map<String, String> initializers) {
 
         checkContext();
+
+        Objects.requireNonNull(componentType);
 
         if (initializers == null) {
             initializers = Collections.emptyMap();
@@ -108,15 +150,19 @@ public class FlowRunner implements FlowContext, ComponentContext {
             }
         }
 
-        final ComponentShell componentShell = createComponentShell(componentType, initializers);
+        final ComponentInstanceImpl component = new ComponentInstanceImpl(componentType, id);
+
+        final ComponentShell componentShell = createComponentShell(component, initializers);
 
         this.components.put(id, componentShell);
 
         if (isRunning()) {
-            componentShell.start(this, this);
+            componentShell.start(this, createComponentContext(component));
         }
 
-        return new ComponentInstanceImpl(componentType, id);
+        emitFlowEvent(FlowEvent.addComponent(id, componentType));
+
+        return component;
     }
 
     private <T> T workWithPorts(final Port out, final Port in,
@@ -146,7 +192,7 @@ public class FlowRunner implements FlowContext, ComponentContext {
 
             final String id = UUID.randomUUID().toString();
 
-            final FlowTriggerConnection connection = new FlowTriggerConnection(this.executor);
+            final FlowTriggerConnection connection = new FlowTriggerConnection(out, in, this.executor);
             outShell.addTriggerOutConnection(out.getPortName(), connection.out());
             inShell.addTriggerInConnection(in.getPortName(), connection.in());
 
@@ -163,7 +209,7 @@ public class FlowRunner implements FlowContext, ComponentContext {
 
             final String id = UUID.randomUUID().toString();
 
-            final FlowDataConnection connection = new FlowDataConnection(
+            final FlowDataConnection connection = new FlowDataConnection(out, in,
                     requiredType != null ? requiredType : Object.class);
 
             outShell.addDataOutConnection(out.getPortName(), connection.out());
@@ -185,8 +231,9 @@ public class FlowRunner implements FlowContext, ComponentContext {
         return this.components.get(componentInstance.getId());
     }
 
-    protected ComponentShell createComponentShell(final String componentType, final Map<String, String> initializers) {
-        final ComponentShell shell = new FactoryComponentShell(this.componentFactory, componentType, initializers);
+    protected ComponentShell createComponentShell(final ComponentInstance component,
+            final Map<String, String> initializers) {
+        final ComponentShell shell = new FactoryComponentShell(this.componentFactory, component, initializers);
 
         return shell;
     }
@@ -204,8 +251,8 @@ public class FlowRunner implements FlowContext, ComponentContext {
 
         // start all shells
 
-        for (final ComponentShell shell : this.components.values()) {
-            shell.start(this, this);
+        for (final Map.Entry<String, ComponentShell> entry : this.components.entrySet()) {
+            entry.getValue().start(this, createComponentContext(entry.getValue().getComponent()));
         }
 
         // signal start
@@ -275,8 +322,7 @@ public class FlowRunner implements FlowContext, ComponentContext {
 
     }
 
-    @Override
-    public <T> SharedResource<T> createSharedResource(final String namespace, final String key, final Class<T> clazz,
+    <T> SharedResource<T> createSharedResource(final String namespace, final String key, final Class<T> clazz,
             final Supplier<T> supplier, final Consumer<T> closeHandler) {
         checkContext();
 
@@ -292,9 +338,134 @@ public class FlowRunner implements FlowContext, ComponentContext {
         return result.increment(clazz);
     }
 
-    @Override
-    public void run(final Runnable runnable) {
+    void run(final Runnable runnable) {
         this.executor.execute(runnable);
     }
 
+    private final class ListenerEntry {
+
+        private final boolean initialize;
+        private final CompletableFuture<Void> future;
+        private final FlowListener listener;
+
+        private ListenerEntry(final boolean initialize, final CompletableFuture<Void> future,
+                final FlowListener listener) {
+            this.initialize = initialize;
+            this.future = future;
+            this.listener = listener;
+        }
+
+        public void event(final FlowEvent event) {
+            this.listener.flowEvent(event);
+        }
+
+        public FlowListener getListener() {
+            return this.listener;
+        }
+
+        public CompletableFuture<Void> getFuture() {
+            return this.future;
+        }
+
+        public boolean isInitialize() {
+            return this.initialize;
+        }
+    }
+
+    public ListenerHandle registerListener(final boolean initialize, final FlowListener listener) {
+
+        final CompletableFuture<Void> future = new CompletableFuture<>();
+
+        final ListenerEntry entry = new ListenerEntry(initialize, future, listener);
+
+        this.executor.execute(() -> initializeListener(entry));
+
+        return new ListenerHandle() {
+
+            @Override
+            public void close() {
+                FlowRunner.this.executor.execute(() -> internalCloseListener(entry));
+            }
+
+            @Override
+            public CompletableFuture<Void> initialized() {
+                return future;
+            }
+        };
+    }
+
+    private void initializeListener(final ListenerEntry listener) {
+        checkContext();
+
+        // record listener
+
+        this.listeners.add(listener);
+
+        if (!listener.isInitialize()) {
+
+            this.eventExecutor.execute(() -> listener.getFuture().complete(null));
+
+            // no need to initialize
+            return;
+        }
+
+        // send out current state
+
+        for (final Map.Entry<String, ComponentShell> entry : this.components.entrySet()) {
+
+            final String id = entry.getKey();
+            final ComponentShell shell = entry.getValue();
+
+            final FlowEvent event = FlowEvent.addComponent(id, shell.getComponent().getType());
+            this.eventExecutor.execute(() -> listener.getListener().flowEvent(event));
+
+            final List<FlowEvent> events = FlowEvent.addPorts(entry.getValue().getComponent(),
+                    shell.getReportedPorts());
+            this.eventExecutor.execute(() -> events.forEach(e -> listener.getListener().flowEvent(e)));
+        }
+
+        for (final Map.Entry<String, FlowDataConnection> entry : this.dataConnections.entrySet()) {
+
+            final String id = entry.getKey();
+            final FlowDataConnection connection = entry.getValue();
+
+            final FlowEvent event = FlowEvent.addDataConnection(id, connection.getOutPort(), connection.getInPort());
+
+            this.eventExecutor.execute(() -> listener.getListener().flowEvent(event));
+
+        }
+
+        for (final Map.Entry<String, FlowTriggerConnection> entry : this.triggerConnections.entrySet()) {
+
+            final String id = entry.getKey();
+            final FlowTriggerConnection connection = entry.getValue();
+
+            final FlowEvent event = FlowEvent.addTriggerConnection(id, connection.getOutPort(), connection.getInPort());
+
+            this.eventExecutor.execute(() -> listener.getListener().flowEvent(event));
+
+        }
+
+        // notify complete from the same thread
+
+        this.eventExecutor.execute(() -> listener.getFuture().complete(null));
+    }
+
+    void emitFlowEvent(final FlowEvent event) {
+        checkContext();
+
+        logger.debug("emitFlowEvent - {}", event);
+
+        for (final ListenerEntry entry : this.listeners) {
+            this.eventExecutor.execute(() -> entry.event(event));
+        }
+    }
+
+    protected void internalCloseListener(final ListenerEntry entry) {
+        this.listeners.remove(entry);
+    }
+
+    protected ComponentContext createComponentContext(final ComponentInstance component) {
+        return new ComponentContextImpl(this);
+    }
 }

@@ -16,10 +16,11 @@ import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.TriggerPlugIn;
 import de.dentrassi.flow.spi.TriggerPlugOut;
+import de.dentrassi.flow.spi.component.EventContext;
 
 public interface Component {
 
-    public void start(Map<String, String> initializers, ComponentContext context);
+    public void start(Map<String, String> initializers, ComponentContext context, EventContext event);
 
     public void stop();
 

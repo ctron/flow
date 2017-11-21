@@ -10,28 +10,35 @@
  *******************************************************************************/
 package de.dentrassi.flow.internal;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.dentrassi.flow.Component;
 import de.dentrassi.flow.ComponentContext;
+import de.dentrassi.flow.ComponentInstance;
 import de.dentrassi.flow.FlowContext;
+import de.dentrassi.flow.PortType;
 import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.TriggerPlugIn;
 import de.dentrassi.flow.spi.TriggerPlugOut;
+import de.dentrassi.flow.spi.component.EventContext;
 
 public abstract class AbstractComponentShell implements ComponentShell {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractComponentShell.class);
 
-    private Component component;
+    private final ComponentInstance componentInstance;
     private final Map<String, String> initializers;
 
+    private Component component;
     private FlowContext flowContext;
     private ComponentContext componentContext;
 
@@ -50,8 +57,16 @@ public abstract class AbstractComponentShell implements ComponentShell {
     private final List<Entry<TriggerPlugIn>> triggerIn = new LinkedList<>();
     private final List<Entry<TriggerPlugOut>> triggerOut = new LinkedList<>();
 
-    public AbstractComponentShell(final Map<String, String> initializers) {
+    private final Map<String, PortType> reportedNames = new HashMap<>();
+
+    public AbstractComponentShell(final ComponentInstance componentInstance, final Map<String, String> initializers) {
+        this.componentInstance = componentInstance;
         this.initializers = initializers;
+    }
+
+    @Override
+    public ComponentInstance getComponent() {
+        return this.componentInstance;
     }
 
     @Override
@@ -63,6 +78,7 @@ public abstract class AbstractComponentShell implements ComponentShell {
     @Override
     public void stop() {
         this.flowContext = null;
+        this.componentContext = null;
 
         if (this.component != null) {
             this.component.stop();
@@ -76,7 +92,9 @@ public abstract class AbstractComponentShell implements ComponentShell {
         }
 
         this.component = component;
-        initializeAndStart();
+        if (this.component != null) {
+            initializeAndStart();
+        }
     }
 
     private boolean isStarted() {
@@ -99,7 +117,13 @@ public abstract class AbstractComponentShell implements ComponentShell {
             this.component.connectTriggerOut(entry.portName, entry.plug);
         }
 
-        this.component.start(this.initializers, this.componentContext);
+        this.component.start(this.initializers, this.componentContext, new EventContext() {
+
+            @Override
+            public void addedPort(final String name, final PortType type) {
+                AbstractComponentShell.this.addedPort(name, type);
+            }
+        });
     }
 
     protected void setErrorInstance(final Throwable e) {
@@ -139,4 +163,17 @@ public abstract class AbstractComponentShell implements ComponentShell {
         }
     }
 
+    @Override
+    public Map<String, PortType> getReportedPorts() {
+        return Collections.unmodifiableMap(this.reportedNames);
+    }
+
+    protected void addedPort(final String name, final PortType type) {
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(type);
+
+        this.reportedNames.put(name, type);
+
+        // FIXME: report event upstream
+    }
 }

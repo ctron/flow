@@ -8,14 +8,14 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow;
+package de.dentrassi.flow.event;
 
-public interface ComponentInstance {
-    public String getId();
+import de.dentrassi.flow.Port;
 
-    public String getType();
+public class AddDataConnection extends AddConnection implements FlowEvent {
 
-    public default Port port(final String portName) {
-        return Port.port(this, portName);
+    AddDataConnection(final String id, final Port out, final Port in) {
+        super(ConnectionType.DATA, id, out, in);
     }
+
 }
