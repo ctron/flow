@@ -31,6 +31,8 @@ public class MqttClient extends AnnotatedComponent {
 
     private static final Logger logger = LoggerFactory.getLogger(MqttClient.class);
 
+    private static final boolean VERTX_PR_71 = Boolean.getBoolean("vertx.fixed.pr71");
+
     private final TriggerPortOut connectionEstablished;
     private final TriggerPortOut connectionLost;
 
@@ -128,7 +130,9 @@ public class MqttClient extends AnnotatedComponent {
                 runOnContext(this::connectionEstablished);
             } else {
                 logger.warn("Failed to connect", connected.cause());
-                // "else" is handled by close handler
+                if (VERTX_PR_71) {
+                    runOnContext(this::connectionLost);
+                }
             }
         });
     }
