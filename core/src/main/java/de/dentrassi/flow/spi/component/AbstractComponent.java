@@ -96,7 +96,7 @@ public abstract class AbstractComponent implements Component {
         return defaultValue;
     }
 
-    private void emitAddPort(final String name, final PortType type) {
+    protected void emitAddPort(final String name, final PortType type) {
         if (this.event != null) {
             this.event.addedPort(name, type);
         }

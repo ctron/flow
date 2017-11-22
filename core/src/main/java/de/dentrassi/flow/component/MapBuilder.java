@@ -16,8 +16,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.dentrassi.flow.ComponentContext;
+import de.dentrassi.flow.PortType;
 import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.component.AbstractComponent;
+import de.dentrassi.flow.spi.component.EventContext;
 
 public class MapBuilder extends AbstractComponent {
 
@@ -27,6 +30,15 @@ public class MapBuilder extends AbstractComponent {
 
     public MapBuilder() {
         registerDataOut("map", this::getMap);
+    }
+
+    @Override
+    public void start(final Map<String, String> initializers, final ComponentContext context,
+            final EventContext event) {
+        super.start(initializers, context, event);
+
+        // notify dynamic ports
+        this.sources.keySet().forEach(port -> emitAddPort(port, PortType.DATA_IN));
     }
 
     protected Map<String, ?> getMap() {
@@ -49,7 +61,9 @@ public class MapBuilder extends AbstractComponent {
 
     @Override
     public void connectDataIn(final String portName, final DataPlugIn plug) {
-        this.sources.put(portName, plug);
+        if (this.sources.put(portName, plug) == null) {
+            emitAddPort(portName, PortType.DATA_IN);
+        }
     }
 
 }

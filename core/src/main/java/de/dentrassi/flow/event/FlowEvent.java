@@ -33,7 +33,7 @@ public interface FlowEvent {
     }
 
     public static FlowEvent addPort(final Port port, final PortType type) {
-        return new AddPortState(port, type);
+        return new AddPort(port, type);
     }
 
     public static List<FlowEvent> addPorts(final ComponentInstance component,
