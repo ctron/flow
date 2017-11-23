@@ -8,11 +8,12 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow.spi.type;
+package de.dentrassi.flow.type;
 
 import java.util.function.Consumer;
 
 import de.dentrassi.flow.spi.Component;
+import de.dentrassi.flow.spi.type.ComponentTypeProvider;
 
 public interface ComponentFactory {
 

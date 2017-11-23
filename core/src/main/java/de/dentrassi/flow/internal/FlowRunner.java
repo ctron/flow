@@ -39,7 +39,7 @@ import de.dentrassi.flow.Port;
 import de.dentrassi.flow.event.FlowEvent;
 import de.dentrassi.flow.event.FlowListener;
 import de.dentrassi.flow.event.ListenerHandle;
-import de.dentrassi.flow.spi.type.ComponentFactory;
+import de.dentrassi.flow.type.ComponentFactory;
 
 public class FlowRunner implements FlowContext {
 
