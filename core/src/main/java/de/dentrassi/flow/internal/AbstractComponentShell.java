@@ -20,11 +20,11 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dentrassi.flow.Component;
 import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.ComponentInstance;
 import de.dentrassi.flow.FlowContext;
 import de.dentrassi.flow.PortType;
+import de.dentrassi.flow.spi.Component;
 import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.TriggerPlugIn;

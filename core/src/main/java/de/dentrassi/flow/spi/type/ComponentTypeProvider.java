@@ -10,7 +10,7 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi.type;
 
-import de.dentrassi.flow.Component;
+import de.dentrassi.flow.spi.Component;
 
 public interface ComponentTypeProvider {
     public Component createType(String componentType) throws Exception;

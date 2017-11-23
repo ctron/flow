@@ -19,6 +19,9 @@ import de.dentrassi.flow.internal.FlowExecutorImpl;
 import de.dentrassi.flow.internal.FlowRunner;
 import de.dentrassi.flow.spi.type.ComponentFactory;
 
+/**
+ * A running flow instance.
+ */
 public class Flow implements AutoCloseable {
 
     private final FlowRunner runner;
@@ -32,14 +35,30 @@ public class Flow implements AutoCloseable {
         this.executor.start();
     }
 
+    /**
+     * Start processing.
+     */
     public void start() {
         this.executor.execute(this.runner::start);
     }
 
+    /**
+     * Stop processing.
+     */
     public void stop() {
         this.executor.execute(this.runner::stop);
     }
 
+    /**
+     * Make modifications to the flow.
+     * 
+     * The consumer will be called from the flow context thread. The method will
+     * return <em>before</em> this call is processed. The reference to the
+     * {@link FlowContext} must not be stored.
+     * 
+     * @param consumer
+     *            The consumer which is allowed to modify the flow instance.
+     */
     public void modify(final Consumer<FlowContext> consumer) {
         Objects.requireNonNull(consumer);
 

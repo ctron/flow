@@ -12,7 +12,7 @@ package de.dentrassi.flow.spi.type;
 
 import java.util.function.Consumer;
 
-import de.dentrassi.flow.Component;
+import de.dentrassi.flow.spi.Component;
 
 public interface ComponentFactory {
 

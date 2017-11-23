@@ -12,10 +12,10 @@ package de.dentrassi.flow.internal;
 
 import static java.util.Collections.emptyMap;
 
-import de.dentrassi.flow.Component;
 import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.ComponentInstance;
 import de.dentrassi.flow.FlowContext;
+import de.dentrassi.flow.spi.Component;
 
 public class InstanceComponentShell extends AbstractComponentShell {
     private final Component component;

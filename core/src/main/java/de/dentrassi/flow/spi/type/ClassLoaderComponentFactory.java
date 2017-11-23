@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dentrassi.flow.Component;
+import de.dentrassi.flow.spi.Component;
 
 public class ClassLoaderComponentFactory implements ComponentFactory {
 
