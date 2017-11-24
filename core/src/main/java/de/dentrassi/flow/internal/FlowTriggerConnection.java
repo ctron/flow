@@ -64,12 +64,16 @@ public class FlowTriggerConnection {
             for (final Runnable runnable : this.listeners) {
                 try {
                     runnable.run();
+                    setError(null);
                 } catch (final Exception e) {
                     logger.info("Failed to run trigger connection", e);
-                    // FIXME: handle error
+                    setError(e);
                 }
             }
         });
+    }
+
+    private void setError(final Exception error) {
     }
 
     public TriggerPlugIn in() {
