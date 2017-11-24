@@ -37,7 +37,7 @@ public abstract class AbstractComponent implements Component {
 
     private final Map<String, TriggerPortOut> outTriggers = new HashMap<>();
     private final Map<String, TriggerPortIn> inTriggers = new HashMap<>();
-    private final Map<String, DataPortOut> outData = new HashMap<>();
+    private final Map<String, SimpleDataPortOut> outData = new HashMap<>();
     private final Map<String, DataPortIn> inData = new HashMap<>();
 
     private Map<String, String> initializers;
@@ -133,12 +133,12 @@ public abstract class AbstractComponent implements Component {
     }
 
     protected void registerDataOut(final String portName, final Supplier<?> supplier) {
-        this.outData.put(portName, new DataPortOut(DataPortOut.singleType(supplier, () -> null)));
+        this.outData.put(portName, new SimpleDataPortOut(SimpleDataPortOut.singleType(supplier, () -> null)));
         emitAddPort(portName, PortType.DATA_OUT);
     }
 
     protected void registerDataOut(final String portName, final Function<ValueRequest, ValueResult> supplier) {
-        this.outData.put(portName, new DataPortOut(supplier));
+        this.outData.put(portName, new SimpleDataPortOut(supplier));
         emitAddPort(portName, PortType.DATA_OUT);
     }
 

@@ -10,8 +10,22 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi.component;
 
-public interface DataPortOut {
+import de.dentrassi.flow.ComponentInstance;
 
-    public ValueResult get(ValueRequest request);
+public final class MockComponentInstance implements ComponentInstance {
 
+    public static final ComponentInstance MOCK = new MockComponentInstance();
+
+    private MockComponentInstance() {
+    }
+
+    @Override
+    public String getType() {
+        return "mock";
+    }
+
+    @Override
+    public String getId() {
+        return "mock";
+    }
 }

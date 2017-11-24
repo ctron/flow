@@ -14,6 +14,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public final class ValueResult {
 
@@ -53,8 +55,8 @@ public final class ValueResult {
         return new ValueResult(null, e);
     }
 
-    public static ValueResult of() {
-        return new ValueResult(null, null);
+    public static ValueResult ofError(final String message) {
+        return new ValueResult(null, new RuntimeException(message));
     }
 
     public static ValueResult of(final Object value) {
@@ -73,9 +75,25 @@ public final class ValueResult {
         }
     }
 
-    public static ValueResult of(final Object... value) {
-        // FIXME: do null check
-        return new ValueResult(asList(value), null);
+    public static ValueResult of(final Object... values) {
+        for (final Object v : values) {
+            Objects.requireNonNull(v);
+        }
+        return new ValueResult(asList(values), null);
+    }
+
+    public <T> Optional<T> getValueAsOptional(final Class<T> type) {
+        if (this.values == null) {
+            return Optional.empty();
+        }
+
+        for (final Object v : this.values) {
+            if (type.isAssignableFrom(v.getClass())) {
+                return Optional.of(type.cast(v));
+            }
+        }
+
+        return Optional.empty();
     }
 
     public <T> T getValueAs(final Class<T> type) throws Exception {
