@@ -10,10 +10,11 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi;
 
+import de.dentrassi.flow.spi.component.ValueRequest;
 import de.dentrassi.flow.spi.component.ValueResult;
 
 public interface DataPlugIn {
 
-    public ValueResult get();
+    public ValueResult get(ValueRequest request);
 
 }

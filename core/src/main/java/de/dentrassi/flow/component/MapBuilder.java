@@ -10,6 +10,8 @@
  *******************************************************************************/
 package de.dentrassi.flow.component;
 
+import static de.dentrassi.flow.spi.component.ValueRequest.ANY;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +48,7 @@ public class MapBuilder extends AbstractComponent {
             final Map<String, Object> result = new HashMap<>(this.sources.size());
 
             for (final Map.Entry<String, DataPlugIn> entry : this.sources.entrySet()) {
-                final Object v = entry.getValue().get().getValueAs(Object.class);
+                final Object v = entry.getValue().get(ANY).getValueAs(Object.class);
                 result.put(entry.getKey(), v);
             }
 
