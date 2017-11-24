@@ -192,8 +192,8 @@ public class MqttClient extends AnnotatedComponent {
     }
 
     @DataIn
-    public void setPort(final String port) {
-        this.port = port == null ? 1883 : Integer.parseInt(port);
+    public void setPort(final Integer port) {
+        this.port = port == null ? 1883 : port;
     }
 
     @DataIn
