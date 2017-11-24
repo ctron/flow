@@ -35,7 +35,7 @@ public class AddPort implements FlowEvent {
     public String toString() {
         return new StringBuilder("[ADD_PORT - ")
                 .append("Port: ").append(this.port).append(", ")
-                .append("Port Type: ").append(this.type).append(", ")
+                .append("Port Type: ").append(this.type)
                 .append("]")
                 .toString();
     }
