@@ -10,8 +10,12 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi.component;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -62,38 +66,16 @@ public abstract class AbstractComponent implements Component {
         this.context.run(runnable);
     }
 
-    protected String getInitializer(final String key) {
-        return this.initializers.get(key);
-    }
+    protected <T> Optional<T> getInitializer(final String key, final Class<T> clazz) {
 
-    protected String getInitializer(final String key, final String defaultValue) {
-        return this.initializers.getOrDefault(key, defaultValue);
-    }
-
-    protected Long getInitializerLong(final String key, final Long defaultValue) {
         final String value = this.initializers.get(key);
 
-        if (value != null) {
-            try {
-                return Long.parseLong(value);
-            } catch (final NumberFormatException e) {
-            }
+        if (value == null) {
+            return empty();
         }
 
-        return defaultValue;
-    }
+        return ofNullable(this.context.geTypeConverterManager().convert(value, clazz));
 
-    protected Double getInitializerDouble(final String key, final Double defaultValue) {
-        final String value = this.initializers.get(key);
-
-        if (value != null) {
-            try {
-                return Double.parseDouble(value);
-            } catch (final NumberFormatException e) {
-            }
-        }
-
-        return defaultValue;
     }
 
     protected void emitAddPort(final String name, final PortType type) {

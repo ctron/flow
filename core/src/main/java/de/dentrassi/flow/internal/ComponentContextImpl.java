@@ -14,13 +14,16 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import de.dentrassi.flow.ComponentContext;
+import de.dentrassi.flow.type.TypeConverterManager;
 
 public class ComponentContextImpl implements ComponentContext {
 
     private final FlowRunner flowRunner;
+    private final TypeConverterManager typeConverterManager;
 
-    public ComponentContextImpl(final FlowRunner flowRunner) {
+    public ComponentContextImpl(final FlowRunner flowRunner, final TypeConverterManager typeConverterManager) {
         this.flowRunner = flowRunner;
+        this.typeConverterManager = typeConverterManager;
     }
 
     @Override
@@ -32,6 +35,11 @@ public class ComponentContextImpl implements ComponentContext {
     @Override
     public void run(final Runnable runnable) {
         this.flowRunner.run(runnable);
+    }
+
+    @Override
+    public TypeConverterManager geTypeConverterManager() {
+        return this.typeConverterManager;
     }
 
 }

@@ -15,7 +15,7 @@ import de.dentrassi.flow.spi.component.AbstractComponent;
 public class StringConstant extends AbstractComponent {
 
     public StringConstant() {
-        registerDataOut("value", () -> getInitializer("value"));
+        registerDataOut("value", () -> getInitializer("value", String.class).orElse(null));
     }
 
 }

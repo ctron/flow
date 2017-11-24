@@ -33,7 +33,7 @@ public class Flow implements AutoCloseable {
         this.executor = new FlowExecutorImpl();
         this.typeConverterManager = new DefaultTypeConverterManager();
 
-        this.runner = new FlowRunner(this.executor, componentFactory);
+        this.runner = new FlowRunner(this.executor, componentFactory, this.typeConverterManager);
 
         this.executor.start();
     }
