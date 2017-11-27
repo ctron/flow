@@ -2,8 +2,11 @@ de.dentrassi.flow
 de.dentrassi.flow.component
 de.dentrassi.flow.component.csv
 de.dentrassi.flow.component.json
+de.dentrassi.flow.component.kapua
 de.dentrassi.flow.component.mqtt
 de.dentrassi.flow.component.trigger
+de.dentrassi.flow.event
 de.dentrassi.flow.spi
 de.dentrassi.flow.spi.component
 de.dentrassi.flow.spi.type
+de.dentrassi.flow.type

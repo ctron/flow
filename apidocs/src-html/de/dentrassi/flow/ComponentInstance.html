@@ -21,10 +21,12 @@
 <span class="sourceLineNo">013</span>public interface ComponentInstance {<a name="line.13"></a>
 <span class="sourceLineNo">014</span>    public String getId();<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>    public default Port port(final String portName) {<a name="line.16"></a>
-<span class="sourceLineNo">017</span>        return Port.port(this, portName);<a name="line.17"></a>
-<span class="sourceLineNo">018</span>    }<a name="line.18"></a>
-<span class="sourceLineNo">019</span>}<a name="line.19"></a>
+<span class="sourceLineNo">016</span>    public String getType();<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>    public default Port port(final String portName) {<a name="line.18"></a>
+<span class="sourceLineNo">019</span>        return Port.port(this, portName);<a name="line.19"></a>
+<span class="sourceLineNo">020</span>    }<a name="line.20"></a>
+<span class="sourceLineNo">021</span>}<a name="line.21"></a>
 
 
 
