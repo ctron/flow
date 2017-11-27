@@ -138,6 +138,23 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.10.4</version>
+                    <configuration>
+                        <tags>
+                            <tag>
+                                <name>model</name>
+                                <placement>X</placement>
+                            </tag>
+                            <tag>
+                                <name>generated</name>
+                                <placement>a</placement>
+                                <head>Generated</head>
+                            </tag>
+                            <tag>
+                                <name>ordered</name>
+                                <placement>X</placement>
+                            </tag>
+                        </tags>
+                    </configuration>
                 </plugin>
 
                 <plugin>
