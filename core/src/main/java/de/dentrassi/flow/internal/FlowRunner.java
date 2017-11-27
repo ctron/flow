@@ -39,7 +39,8 @@ import de.dentrassi.flow.Port;
 import de.dentrassi.flow.event.FlowEvent;
 import de.dentrassi.flow.event.FlowListener;
 import de.dentrassi.flow.event.ListenerHandle;
-import de.dentrassi.flow.spi.type.ComponentFactory;
+import de.dentrassi.flow.type.ComponentFactory;
+import de.dentrassi.flow.type.TypeConverterManager;
 
 public class FlowRunner implements FlowContext {
 
@@ -61,6 +62,8 @@ public class FlowRunner implements FlowContext {
 
     private final FlowRunnerComponent contextComponent = new FlowRunnerComponent(this);
     private final ExecutorService eventExecutor;
+
+    private TypeConverterManager typeConverterManager;
 
     private static class ComponentInstanceImpl implements ComponentInstance {
 
@@ -104,9 +107,11 @@ public class FlowRunner implements FlowContext {
 
     }
 
-    public FlowRunner(final FlowExecutor executor, final ComponentFactory componentFactory) {
+    public FlowRunner(final FlowExecutor executor, final ComponentFactory componentFactory,
+            final TypeConverterManager typeConverterManager) {
         this.executor = executor;
         this.componentFactory = componentFactory;
+        this.typeConverterManager = typeConverterManager;
 
         this.components.put("flow",
                 new InstanceComponentShell(new ComponentInstanceImpl("flow", "flow"), this.contextComponent));
@@ -466,6 +471,7 @@ public class FlowRunner implements FlowContext {
     }
 
     protected ComponentContext createComponentContext(final ComponentInstance component) {
-        return new ComponentContextImpl(this);
+        return new ComponentContextImpl(this, this.typeConverterManager);
     }
+
 }

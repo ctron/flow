@@ -13,12 +13,12 @@ package de.dentrassi.flow.event;
 import de.dentrassi.flow.Port;
 import de.dentrassi.flow.PortType;
 
-public class AddPortState implements FlowEvent {
+public class AddPort implements FlowEvent {
 
     private final Port port;
     private final PortType type;
 
-    AddPortState(final Port port, final PortType type) {
+    AddPort(final Port port, final PortType type) {
         this.port = port;
         this.type = type;
     }
@@ -27,11 +27,15 @@ public class AddPortState implements FlowEvent {
         return this.port;
     }
 
+    public PortType getType() {
+        return this.type;
+    }
+
     @Override
     public String toString() {
         return new StringBuilder("[ADD_PORT - ")
                 .append("Port: ").append(this.port).append(", ")
-                .append("Port Type: ").append(this.type).append(", ")
+                .append("Port Type: ").append(this.type)
                 .append("]")
                 .toString();
     }

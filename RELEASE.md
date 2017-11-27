@@ -25,3 +25,4 @@ Head over to http://oss.sonatype.org/ and do the release.
     cd target/staging
     # upload
     git checkout develop
+

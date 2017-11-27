@@ -69,17 +69,27 @@ public class CsvTimeSeriesReader extends AbstractComponent {
         registerTriggerIn("open", this::open);
         registerTriggerIn("close", this::close);
 
-        registerDataIn("file", String.class, () -> getInitializer("file"), () -> null, this::setFile);
-        registerDataIn("timestampColumn", String.class, () -> getInitializer("timestampColumn"), () -> null,
+        registerDataIn("file", String.class,
+                () -> getInitializer("file", String.class).orElse(null),
+                () -> null,
+                this::setFile);
+
+        registerDataIn("timestampColumn", String.class,
+                () -> getInitializer("timestampColumn", String.class).orElse(null),
+                () -> null,
                 this::setTimestampColumn);
 
         // TODO: Make this a mixed type port (String, TimeUnit)
-        registerDataIn("timestampUnit", String.class, () -> getInitializer("timestampUnit", "MS"), () -> null,
+        registerDataIn("timestampUnit", String.class,
+                () -> getInitializer("timestampUnit", String.class).orElse("MS"),
+                () -> null,
                 this::setTimestampUnit);
 
-        registerDataIn("durationMultipliedBy", Long.class, () -> getInitializerLong("durationMultipliedBy", null),
+        registerDataIn("durationMultipliedBy", Long.class,
+                () -> getInitializer("durationMultipliedBy", Long.class).orElse(null),
                 () -> null, this::setDurationMultipliedBy);
-        registerDataIn("durationDividedBy", Long.class, () -> getInitializerLong("durationDividedBy", null), () -> null,
+        registerDataIn("durationDividedBy", Long.class,
+                () -> getInitializer("durationDividedBy", Long.class).orElse(null), () -> null,
                 this::setDurationDividedBy);
 
         registerDataOut("record", this::getRecord);

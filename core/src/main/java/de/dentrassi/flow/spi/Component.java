@@ -8,14 +8,11 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow;
+package de.dentrassi.flow.spi;
 
 import java.util.Map;
 
-import de.dentrassi.flow.spi.DataPlugIn;
-import de.dentrassi.flow.spi.DataPlugOut;
-import de.dentrassi.flow.spi.TriggerPlugIn;
-import de.dentrassi.flow.spi.TriggerPlugOut;
+import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.spi.component.EventContext;
 
 public interface Component {

@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 import de.dentrassi.flow.ComponentInstance;
 import de.dentrassi.flow.Flow;
 import de.dentrassi.flow.spi.type.ClassLoaderComponentFactory;
-import de.dentrassi.flow.spi.type.ComponentFactory;
+import de.dentrassi.flow.type.ComponentFactory;
 
 public class Application1 {
     public static void main(final String[] args) throws Exception {

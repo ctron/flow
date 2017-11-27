@@ -15,9 +15,9 @@ import java.util.Map;
 import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.ComponentInstance;
 import de.dentrassi.flow.FlowContext;
-import de.dentrassi.flow.spi.type.ComponentFactory;
-import de.dentrassi.flow.spi.type.ComponentFactory.LookupHandle;
 import de.dentrassi.flow.spi.type.ComponentTypeProvider;
+import de.dentrassi.flow.type.ComponentFactory;
+import de.dentrassi.flow.type.ComponentFactory.LookupHandle;
 
 public class FactoryComponentShell extends AbstractComponentShell {
 

@@ -10,44 +10,8 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi.component;
 
-import static java.util.Objects.requireNonNull;
+public interface DataPortOut {
 
-import java.util.function.Function;
-import java.util.function.Supplier;
+    public ValueResult get(ValueRequest request);
 
-public class DataPortOut {
-
-    private final Function<ValueRequest, ValueResult> supplier;
-
-    public DataPortOut(final Function<ValueRequest, ValueResult> supplier) {
-        requireNonNull(supplier);
-        this.supplier = supplier;
-    }
-
-    public ValueResult get(final ValueRequest request) {
-        return requireNonNull(this.supplier.apply(request));
-    }
-
-    public static Function<ValueRequest, ValueResult> singleType(final Supplier<?> supplier,
-            final Supplier<?> defaultValue) {
-
-        requireNonNull(supplier);
-        requireNonNull(defaultValue);
-
-        return request -> {
-            final Object value = supplier.get();
-            if (value == null) {
-                return null;
-            }
-
-            final Class<?> valueClass = value.getClass();
-            for (final Class<?> type : request.getTypes()) {
-                if (type.isAssignableFrom(valueClass)) {
-                    return ValueResult.of(value);
-                }
-            }
-
-            return ValueResult.of(defaultValue.get());
-        };
-    }
 }

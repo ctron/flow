@@ -41,7 +41,7 @@ public class MqttClient extends AnnotatedComponent {
     private String password;
 
     private SharedResource<Vertx> vertx;
-    private io.vertx.mqtt.MqttClient client;
+    private de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient client;
 
     private boolean started;
     private boolean connected;
@@ -95,7 +95,8 @@ public class MqttClient extends AnnotatedComponent {
         options.setUsername(this.username);
         options.setPassword(this.password);
 
-        this.client = io.vertx.mqtt.MqttClient.create(this.vertx.get(), options)
+        this.client = de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient
+                .create(this.vertx.get(), options)
                 .closeHandler(v -> {
                     runOnContext(this::connectionLost);
                 });
@@ -128,7 +129,7 @@ public class MqttClient extends AnnotatedComponent {
                 runOnContext(this::connectionEstablished);
             } else {
                 logger.warn("Failed to connect", connected.cause());
-                // "else" is handled by close handler
+                runOnContext(this::connectionLost);
             }
         });
     }
@@ -191,8 +192,8 @@ public class MqttClient extends AnnotatedComponent {
     }
 
     @DataIn
-    public void setPort(final String port) {
-        this.port = port == null ? 1883 : Integer.parseInt(port);
+    public void setPort(final Integer port) {
+        this.port = port == null ? 1883 : port;
     }
 
     @DataIn
@@ -211,7 +212,7 @@ public class MqttClient extends AnnotatedComponent {
     }
 
     @DataOut
-    public io.vertx.mqtt.MqttClient getClient() {
+    public de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient getClient() {
         return this.client;
     }
 

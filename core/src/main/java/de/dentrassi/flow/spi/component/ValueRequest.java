@@ -17,6 +17,8 @@ import java.util.List;
 
 public final class ValueRequest {
 
+    public static final ValueRequest ANY = ValueRequest.of(Object.class);
+
     private final List<Class<?>> types;
 
     private ValueRequest(final Class<?> requiredType) {
@@ -51,8 +53,20 @@ public final class ValueRequest {
 
     @Override
     public String toString() {
-        return new StringBuilder("[ValueRequest: ").append(this.types).append("]")
+        return new StringBuilder("[ValueRequest: ")
+                .append(this.types).append("]")
                 .toString();
+    }
+
+    public ValueRequest limit(final Class<?> requiredType) {
+
+        for (final Class<?> type : this.types) {
+            if (requiredType.isAssignableFrom(type)) {
+                return ValueRequest.of(type);
+            }
+        }
+
+        return null;
     }
 
 }

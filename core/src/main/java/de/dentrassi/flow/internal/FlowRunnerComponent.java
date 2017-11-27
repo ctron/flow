@@ -10,7 +10,7 @@
  *******************************************************************************/
 package de.dentrassi.flow.internal;
 
-import de.dentrassi.flow.Component;
+import de.dentrassi.flow.spi.Component;
 import de.dentrassi.flow.spi.component.AbstractComponent;
 
 public class FlowRunnerComponent extends AbstractComponent implements Component {

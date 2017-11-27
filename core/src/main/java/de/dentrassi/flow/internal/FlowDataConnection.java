@@ -10,6 +10,8 @@
  *******************************************************************************/
 package de.dentrassi.flow.internal;
 
+import static java.lang.String.format;
+
 import de.dentrassi.flow.Port;
 import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.DataPlugOut;
@@ -22,8 +24,8 @@ public class FlowDataConnection {
     private final DataPlugIn in = new DataPlugIn() {
 
         @Override
-        public ValueResult get() {
-            return FlowDataConnection.this.get();
+        public ValueResult get(final ValueRequest request) {
+            return FlowDataConnection.this.get(request);
         }
     };
 
@@ -39,18 +41,50 @@ public class FlowDataConnection {
 
     private final Port inPort;
 
-    private final ValueRequest request;
+    private final Class<?> requiredType;
 
     protected DataPortOut supplier;
+
+    private ValueRequest lastIncomingRequest;
+    private ValueRequest lastOutgoingRequest;
 
     public FlowDataConnection(final Port out, final Port in, final Class<?> requiredType) {
         this.outPort = out;
         this.inPort = in;
-        this.request = ValueRequest.of(requiredType);
+        this.requiredType = requiredType;
     }
 
-    protected ValueResult get() {
-        return this.supplier.get(this.request);
+    protected ValueResult get(final ValueRequest request) {
+
+        if (this.requiredType == null) {
+
+            // this connection is not limited to a type ... pass through
+            return this.supplier.get(request);
+
+        } else {
+
+            // check if we have the same instance
+
+            if (this.lastIncomingRequest != request) {
+
+                // no ... we need to re-eval
+
+                this.lastOutgoingRequest = request.limit(this.requiredType);
+                this.lastIncomingRequest = request;
+            }
+
+            if (this.lastOutgoingRequest == null) {
+
+                // if there is no matching type
+
+                throw new ClassCastException(
+                        format("Unable to limit request by %s - possible types: %s", this.requiredType, request));
+            }
+
+            // pass on request
+
+            return this.supplier.get(this.lastOutgoingRequest);
+        }
     }
 
     public DataPlugOut out() {

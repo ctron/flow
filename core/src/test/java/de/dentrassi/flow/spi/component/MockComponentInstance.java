@@ -8,20 +8,24 @@
  * Contributors:
  *     Jens Reimann - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.flow.spi.type;
+package de.dentrassi.flow.spi.component;
 
-import java.util.function.Consumer;
+import de.dentrassi.flow.ComponentInstance;
 
-import de.dentrassi.flow.Component;
+public final class MockComponentInstance implements ComponentInstance {
 
-public interface ComponentFactory {
+    public static final ComponentInstance MOCK = new MockComponentInstance();
 
-    public static interface LookupHandle extends AutoCloseable {
-        @Override
-        public void close();
+    private MockComponentInstance() {
     }
 
-    public Component create(String type) throws Exception;
+    @Override
+    public String getType() {
+        return "mock";
+    }
 
-    public LookupHandle lookup(String componentType, Consumer<ComponentTypeProvider> typeProvider);
+    @Override
+    public String getId() {
+        return "mock";
+    }
 }

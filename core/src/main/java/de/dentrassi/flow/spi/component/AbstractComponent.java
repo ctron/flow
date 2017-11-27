@@ -10,8 +10,12 @@
  *******************************************************************************/
 package de.dentrassi.flow.spi.component;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -19,9 +23,9 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dentrassi.flow.Component;
 import de.dentrassi.flow.ComponentContext;
 import de.dentrassi.flow.PortType;
+import de.dentrassi.flow.spi.Component;
 import de.dentrassi.flow.spi.DataPlugIn;
 import de.dentrassi.flow.spi.DataPlugOut;
 import de.dentrassi.flow.spi.TriggerPlugIn;
@@ -33,7 +37,7 @@ public abstract class AbstractComponent implements Component {
 
     private final Map<String, TriggerPortOut> outTriggers = new HashMap<>();
     private final Map<String, TriggerPortIn> inTriggers = new HashMap<>();
-    private final Map<String, DataPortOut> outData = new HashMap<>();
+    private final Map<String, SimpleDataPortOut> outData = new HashMap<>();
     private final Map<String, DataPortIn> inData = new HashMap<>();
 
     private Map<String, String> initializers;
@@ -62,41 +66,19 @@ public abstract class AbstractComponent implements Component {
         this.context.run(runnable);
     }
 
-    protected String getInitializer(final String key) {
-        return this.initializers.get(key);
-    }
+    protected <T> Optional<T> getInitializer(final String key, final Class<T> clazz) {
 
-    protected String getInitializer(final String key, final String defaultValue) {
-        return this.initializers.getOrDefault(key, defaultValue);
-    }
-
-    protected Long getInitializerLong(final String key, final Long defaultValue) {
         final String value = this.initializers.get(key);
 
-        if (value != null) {
-            try {
-                return Long.parseLong(value);
-            } catch (final NumberFormatException e) {
-            }
+        if (value == null) {
+            return empty();
         }
 
-        return defaultValue;
+        return ofNullable(this.context.geTypeConverterManager().convert(value, clazz));
+
     }
 
-    protected Double getInitializerDouble(final String key, final Double defaultValue) {
-        final String value = this.initializers.get(key);
-
-        if (value != null) {
-            try {
-                return Double.parseDouble(value);
-            } catch (final NumberFormatException e) {
-            }
-        }
-
-        return defaultValue;
-    }
-
-    private void emitAddPort(final String name, final PortType type) {
+    protected void emitAddPort(final String name, final PortType type) {
         if (this.event != null) {
             this.event.addedPort(name, type);
         }
@@ -151,12 +133,12 @@ public abstract class AbstractComponent implements Component {
     }
 
     protected void registerDataOut(final String portName, final Supplier<?> supplier) {
-        this.outData.put(portName, new DataPortOut(DataPortOut.singleType(supplier, () -> null)));
+        this.outData.put(portName, new SimpleDataPortOut(SimpleDataPortOut.singleType(supplier, () -> null)));
         emitAddPort(portName, PortType.DATA_OUT);
     }
 
     protected void registerDataOut(final String portName, final Function<ValueRequest, ValueResult> supplier) {
-        this.outData.put(portName, new DataPortOut(supplier));
+        this.outData.put(portName, new SimpleDataPortOut(supplier));
         emitAddPort(portName, PortType.DATA_OUT);
     }
 

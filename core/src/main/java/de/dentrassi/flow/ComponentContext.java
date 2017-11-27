@@ -13,6 +13,8 @@ package de.dentrassi.flow;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import de.dentrassi.flow.type.TypeConverterManager;
+
 public interface ComponentContext {
 
     public interface SharedResource<T> extends AutoCloseable {
@@ -38,4 +40,6 @@ public interface ComponentContext {
      *            the runnable to run
      */
     public void run(Runnable runnable);
+
+    public TypeConverterManager geTypeConverterManager();
 }

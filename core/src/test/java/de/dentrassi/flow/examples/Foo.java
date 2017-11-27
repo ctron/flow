@@ -20,7 +20,8 @@ public class Foo extends AbstractComponent {
         registerTriggerIn("execute", this::execute);
         registerTriggerOut("changed");
 
-        registerDataIn("messageIn", String.class, () -> getInitializer("messageIn"), this::setMessage);
+        registerDataIn("messageIn", String.class, () -> getInitializer("messageIn", String.class).orElse(null),
+                this::setMessage);
         registerDataOut("messageOut", this::getMessage);
     }
 

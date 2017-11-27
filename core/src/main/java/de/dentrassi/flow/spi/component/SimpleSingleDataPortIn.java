@@ -21,7 +21,7 @@ public class SimpleSingleDataPortIn extends AbstractSingleDataPortIn {
         this.error = null;
         if (this.plug != null) {
             try {
-                this.value = this.plug.get();
+                this.value = this.plug.get(ValueRequest.ANY);
             } catch (final Throwable e) {
                 this.error = e;
             }

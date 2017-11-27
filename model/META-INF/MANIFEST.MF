@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: flow-model;singleton:=true
+Bundle-Version: 0.0.6.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.core.runtime;resolution:=optional;x-installation:=greedy
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.dentrassi.flow.model.flow,
+ de.dentrassi.flow.model.flow.impl,
+ de.dentrassi.flow.model.flow.util

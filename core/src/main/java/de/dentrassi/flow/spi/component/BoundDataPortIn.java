@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 
 public class BoundDataPortIn extends AbstractSingleDataPortIn {
 
+    private final ValueRequest request;
     private final Supplier<? extends Object> initializer;
     private final Consumer<ValueResult> consumer;
 
@@ -23,12 +24,16 @@ public class BoundDataPortIn extends AbstractSingleDataPortIn {
     private Object initializerValue;
 
     public BoundDataPortIn(final Supplier<Object> initializer, final Consumer<ValueResult> consumer) {
+        this.request = ValueRequest.of(Object.class);
         this.initializer = initializer;
         this.consumer = consumer;
     }
 
     public <T> BoundDataPortIn(final Class<T> clazz, final Supplier<T> initializer, final Supplier<T> incompatibleValue,
             final Consumer<T> consumer) {
+
+        this.request = ValueRequest.of(clazz);
+
         this.initializer = initializer;
         this.consumer = value -> {
             boolean called = false;
@@ -52,7 +57,7 @@ public class BoundDataPortIn extends AbstractSingleDataPortIn {
     @Override
     public void update() {
         if (this.plug != null) {
-            this.consumer.accept(this.plug.get());
+            this.consumer.accept(this.plug.get(this.request));
         } else {
             if (!this.initializerLoaded) {
                 this.initializerValue = this.initializer.get();

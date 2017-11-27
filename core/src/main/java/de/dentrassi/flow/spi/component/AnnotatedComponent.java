@@ -58,23 +58,25 @@ public abstract class AnnotatedComponent extends AbstractComponent {
                     method, DataIn.class.getSimpleName(), method.getParameterCount()));
         }
 
-        String name = method.getName();
-        if (name.startsWith("set") && name.length() > 3) {
-            name = name.substring(3);
-            name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
-        }
+        final Class<?> type = method.getParameterTypes()[0];
 
-        final String finalName = name;
+        final String finalName;
+        {
+            String name = method.getName();
+            if (name.startsWith("set") && name.length() > 3) {
+                name = name.substring(3);
+                name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
+            }
+            finalName = name;
+        }
 
         final Supplier<Object> initializer;
 
         if (dataIn.initialize()) {
-            initializer = () -> getInitializer(finalName);
+            initializer = () -> getInitializer(finalName, type).orElse(null);
         } else {
             initializer = () -> null;
         }
-
-        final Class<?> type = method.getParameterTypes()[0];
 
         registerDataIn(finalName, initializer, value -> {
 
