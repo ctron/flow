@@ -1,10 +1,18 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow.impl;
+package de.dentrassi.flow.model.impl;
 
-import de.dentrassi.flow.model.flow.FlowPackage;
-import de.dentrassi.flow.model.flow.Node;
-import de.dentrassi.flow.model.flow.Port;
+import de.dentrassi.flow.model.FlowPackage;
+import de.dentrassi.flow.model.Node;
+import de.dentrassi.flow.model.Port;
 
 import java.util.Collection;
 
@@ -18,6 +26,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -29,9 +38,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.dentrassi.flow.model.flow.impl.NodeImpl#getId <em>Id</em>}</li>
- *   <li>{@link de.dentrassi.flow.model.flow.impl.NodeImpl#getType <em>Type</em>}</li>
- *   <li>{@link de.dentrassi.flow.model.flow.impl.NodeImpl#getPorts <em>Ports</em>}</li>
+ *   <li>{@link de.dentrassi.flow.model.impl.NodeImpl#getId <em>Id</em>}</li>
+ *   <li>{@link de.dentrassi.flow.model.impl.NodeImpl#getType <em>Type</em>}</li>
+ *   <li>{@link de.dentrassi.flow.model.impl.NodeImpl#getPorts <em>Ports</em>}</li>
  * </ul>
  *
  * @generated

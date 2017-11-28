@@ -1,8 +1,16 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow.util;
+package de.dentrassi.flow.model.util;
 
-import de.dentrassi.flow.model.flow.*;
+import de.dentrassi.flow.model.*;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -16,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see de.dentrassi.flow.model.flow.FlowPackage
+ * @see de.dentrassi.flow.model.FlowPackage
  * @generated
  */
 public class FlowAdapterFactory extends AdapterFactoryImpl {
@@ -136,13 +144,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.Flow <em>Flow</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.Flow <em>Flow</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.Flow
+     * @see de.dentrassi.flow.model.Flow
      * @generated
      */
     public Adapter createFlowAdapter() {
@@ -150,13 +158,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.Node <em>Node</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.Node <em>Node</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.Node
+     * @see de.dentrassi.flow.model.Node
      * @generated
      */
     public Adapter createNodeAdapter() {
@@ -164,13 +172,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.Port <em>Port</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.Port <em>Port</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.Port
+     * @see de.dentrassi.flow.model.Port
      * @generated
      */
     public Adapter createPortAdapter() {
@@ -178,13 +186,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.DataInPort <em>Data In Port</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.DataInPort <em>Data In Port</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.DataInPort
+     * @see de.dentrassi.flow.model.DataInPort
      * @generated
      */
     public Adapter createDataInPortAdapter() {
@@ -192,13 +200,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.DataOutPort <em>Data Out Port</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.DataOutPort <em>Data Out Port</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.DataOutPort
+     * @see de.dentrassi.flow.model.DataOutPort
      * @generated
      */
     public Adapter createDataOutPortAdapter() {
@@ -206,13 +214,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.TriggerInPort <em>Trigger In Port</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.TriggerInPort <em>Trigger In Port</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.TriggerInPort
+     * @see de.dentrassi.flow.model.TriggerInPort
      * @generated
      */
     public Adapter createTriggerInPortAdapter() {
@@ -220,13 +228,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.TriggerOutPort <em>Trigger Out Port</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.TriggerOutPort <em>Trigger Out Port</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.TriggerOutPort
+     * @see de.dentrassi.flow.model.TriggerOutPort
      * @generated
      */
     public Adapter createTriggerOutPortAdapter() {
@@ -234,13 +242,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.Connection <em>Connection</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.Connection <em>Connection</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.Connection
+     * @see de.dentrassi.flow.model.Connection
      * @generated
      */
     public Adapter createConnectionAdapter() {
@@ -248,13 +256,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.DataConnection <em>Data Connection</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.DataConnection <em>Data Connection</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.DataConnection
+     * @see de.dentrassi.flow.model.DataConnection
      * @generated
      */
     public Adapter createDataConnectionAdapter() {
@@ -262,13 +270,13 @@ public class FlowAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.flow.TriggerConnection <em>Trigger Connection</em>}'.
+     * Creates a new adapter for an object of class '{@link de.dentrassi.flow.model.TriggerConnection <em>Trigger Connection</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see de.dentrassi.flow.model.flow.TriggerConnection
+     * @see de.dentrassi.flow.model.TriggerConnection
      * @generated
      */
     public Adapter createTriggerConnectionAdapter() {

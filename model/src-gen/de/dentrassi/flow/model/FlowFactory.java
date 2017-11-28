@@ -1,6 +1,14 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow;
+package de.dentrassi.flow.model;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -9,7 +17,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see de.dentrassi.flow.model.flow.FlowPackage
+ * @see de.dentrassi.flow.model.FlowPackage
  * @generated
  */
 public interface FlowFactory extends EFactory {
@@ -19,7 +27,7 @@ public interface FlowFactory extends EFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    FlowFactory eINSTANCE = de.dentrassi.flow.model.flow.impl.FlowFactoryImpl.init();
+    FlowFactory eINSTANCE = de.dentrassi.flow.model.impl.FlowFactoryImpl.init();
 
     /**
      * Returns a new object of class '<em>Flow</em>'.

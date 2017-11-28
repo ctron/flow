@@ -1,11 +1,19 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow.impl;
+package de.dentrassi.flow.model.impl;
 
-import de.dentrassi.flow.model.flow.DataConnection;
-import de.dentrassi.flow.model.flow.DataInPort;
-import de.dentrassi.flow.model.flow.DataOutPort;
-import de.dentrassi.flow.model.flow.FlowPackage;
+import de.dentrassi.flow.model.DataConnection;
+import de.dentrassi.flow.model.DataInPort;
+import de.dentrassi.flow.model.DataOutPort;
+import de.dentrassi.flow.model.FlowPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -22,8 +30,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.dentrassi.flow.model.flow.impl.DataConnectionImpl#getIn <em>In</em>}</li>
- *   <li>{@link de.dentrassi.flow.model.flow.impl.DataConnectionImpl#getOut <em>Out</em>}</li>
+ *   <li>{@link de.dentrassi.flow.model.impl.DataConnectionImpl#getIn <em>In</em>}</li>
+ *   <li>{@link de.dentrassi.flow.model.impl.DataConnectionImpl#getOut <em>Out</em>}</li>
  * </ul>
  *
  * @generated

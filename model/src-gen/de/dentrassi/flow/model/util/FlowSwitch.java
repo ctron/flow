@@ -1,8 +1,16 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow.util;
+package de.dentrassi.flow.model.util;
 
-import de.dentrassi.flow.model.flow.*;
+import de.dentrassi.flow.model.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -19,7 +27,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see de.dentrassi.flow.model.flow.FlowPackage
+ * @see de.dentrassi.flow.model.FlowPackage
  * @generated
  */
 public class FlowSwitch<T> extends Switch<T> {

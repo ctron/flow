@@ -10,7 +10,7 @@
       <!-- @generated flow -->
       <package
             uri="uri:flow"
-            class="de.dentrassi.flow.model.flow.FlowPackage"
+            class="de.dentrassi.flow.model.FlowPackage"
             genModel="model/flow.genmodel"/>
    </extension>
 

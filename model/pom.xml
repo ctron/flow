@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>flow-model</artifactId>
+    <packaging>bundle</packaging>
 
     <name>Flow :: Model</name>
     <description>The flow model</description>
@@ -54,15 +55,6 @@
         <sourceDirectory>src</sourceDirectory>
 
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestFile>META-INF/MANIFEST.MF</manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -84,21 +76,18 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
-                    <resources>
-                        <resource>
-                            <directory>.</directory>
-                            <includes>
-                                <include>plugin.xml</include>
-                                <include>plugin.properties</include>
-                            </includes>
-                        </resource>
-                    </resources>
+                    <archive>
+                        <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                    <instructions>
+                        <Include-Resource>plugin.xml,plugin.properties,model=model</Include-Resource>
+                    </instructions>
                 </configuration>
             </plugin>
+
         </plugins>
 
     </build>

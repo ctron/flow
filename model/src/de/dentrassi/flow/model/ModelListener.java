@@ -18,16 +18,6 @@ import de.dentrassi.flow.event.AddConnection;
 import de.dentrassi.flow.event.AddPort;
 import de.dentrassi.flow.event.FlowEvent;
 import de.dentrassi.flow.event.FlowListener;
-import de.dentrassi.flow.model.flow.DataConnection;
-import de.dentrassi.flow.model.flow.DataInPort;
-import de.dentrassi.flow.model.flow.DataOutPort;
-import de.dentrassi.flow.model.flow.Flow;
-import de.dentrassi.flow.model.flow.FlowFactory;
-import de.dentrassi.flow.model.flow.Node;
-import de.dentrassi.flow.model.flow.Port;
-import de.dentrassi.flow.model.flow.TriggerConnection;
-import de.dentrassi.flow.model.flow.TriggerInPort;
-import de.dentrassi.flow.model.flow.TriggerOutPort;
 
 public class ModelListener implements FlowListener {
 

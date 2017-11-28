@@ -1,11 +1,19 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow.impl;
+package de.dentrassi.flow.model.impl;
 
-import de.dentrassi.flow.model.flow.Connection;
-import de.dentrassi.flow.model.flow.Flow;
-import de.dentrassi.flow.model.flow.FlowPackage;
-import de.dentrassi.flow.model.flow.Node;
+import de.dentrassi.flow.model.Connection;
+import de.dentrassi.flow.model.Flow;
+import de.dentrassi.flow.model.FlowPackage;
+import de.dentrassi.flow.model.Node;
 
 import java.util.Collection;
 
@@ -29,8 +37,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.dentrassi.flow.model.flow.impl.FlowImpl#getNodes <em>Nodes</em>}</li>
- *   <li>{@link de.dentrassi.flow.model.flow.impl.FlowImpl#getConnections <em>Connections</em>}</li>
+ *   <li>{@link de.dentrassi.flow.model.impl.FlowImpl#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link de.dentrassi.flow.model.impl.FlowImpl#getConnections <em>Connections</em>}</li>
  * </ul>
  *
  * @generated
