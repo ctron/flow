@@ -23,6 +23,6 @@ Head over to http://oss.sonatype.org/ and do the release.
     # prepare and maybe modify site.xml
     mvn site:site site:stage
     cd target/staging
-    # upload
+    # upload, upload p2
     git checkout develop
 
