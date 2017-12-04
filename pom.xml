@@ -5,7 +5,7 @@
 
     <groupId>de.dentrassi.flow</groupId>
     <artifactId>flow-parent</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.7</version>
     <packaging>pom</packaging>
 
     <name>Flow</name>
@@ -27,7 +27,7 @@
         <url>https://github.com/ctron/flow</url>
         <connection>scm:git:git://github.com/ctron/flow.git</connection>
         <developerConnection>scm:git:git@github.com:ctron/flow.git</developerConnection>
-        <tag>flow-0.0.6</tag>
+        <tag>flow-0.0.7</tag>
     </scm>
 
     <issueManagement>
@@ -67,6 +67,8 @@
         <module>core</module>
         <module>components</module>
         <module>model</module>
+
+        <module>p2-repository</module>
     </modules>
 
     <dependencyManagement>
@@ -138,6 +140,23 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.10.4</version>
+                    <configuration>
+                        <tags>
+                            <tag>
+                                <name>model</name>
+                                <placement>X</placement>
+                            </tag>
+                            <tag>
+                                <name>generated</name>
+                                <placement>a</placement>
+                                <head>Generated</head>
+                            </tag>
+                            <tag>
+                                <name>ordered</name>
+                                <placement>X</placement>
+                            </tag>
+                        </tags>
+                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -171,6 +190,12 @@
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>3.3.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
 
             </plugins>

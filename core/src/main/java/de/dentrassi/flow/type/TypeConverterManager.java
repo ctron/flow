@@ -16,6 +16,7 @@ import static java.util.Optional.ofNullable;
 import java.util.Optional;
 
 public interface TypeConverterManager extends AutoCloseable {
+
     /**
      * Convert type
      * 
@@ -23,6 +24,10 @@ public interface TypeConverterManager extends AutoCloseable {
      *            the value to convert
      * @param to
      *            the target type
+     * @param <T>
+     *            The source type
+     * @param <R>
+     *            The target type
      * @return the result
      * @throws ClassCastException
      *             if the type cannot be converted

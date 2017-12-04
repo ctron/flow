@@ -1,19 +1,27 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow.impl;
+package de.dentrassi.flow.model.impl;
 
-import de.dentrassi.flow.model.flow.Connection;
-import de.dentrassi.flow.model.flow.DataConnection;
-import de.dentrassi.flow.model.flow.DataInPort;
-import de.dentrassi.flow.model.flow.DataOutPort;
-import de.dentrassi.flow.model.flow.Flow;
-import de.dentrassi.flow.model.flow.FlowFactory;
-import de.dentrassi.flow.model.flow.FlowPackage;
-import de.dentrassi.flow.model.flow.Node;
-import de.dentrassi.flow.model.flow.Port;
-import de.dentrassi.flow.model.flow.TriggerConnection;
-import de.dentrassi.flow.model.flow.TriggerInPort;
-import de.dentrassi.flow.model.flow.TriggerOutPort;
+import de.dentrassi.flow.model.Connection;
+import de.dentrassi.flow.model.DataConnection;
+import de.dentrassi.flow.model.DataInPort;
+import de.dentrassi.flow.model.DataOutPort;
+import de.dentrassi.flow.model.Flow;
+import de.dentrassi.flow.model.FlowFactory;
+import de.dentrassi.flow.model.FlowPackage;
+import de.dentrassi.flow.model.Node;
+import de.dentrassi.flow.model.Port;
+import de.dentrassi.flow.model.TriggerConnection;
+import de.dentrassi.flow.model.TriggerInPort;
+import de.dentrassi.flow.model.TriggerOutPort;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -110,7 +118,7 @@ public class FlowPackageImpl extends EPackageImpl implements FlowPackage {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see org.eclipse.emf.ecore.EPackage.Registry
-     * @see de.dentrassi.flow.model.flow.FlowPackage#eNS_URI
+     * @see de.dentrassi.flow.model.FlowPackage#eNS_URI
      * @see #init()
      * @generated
      */

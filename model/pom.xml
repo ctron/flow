@@ -6,15 +6,21 @@
     <parent>
         <groupId>de.dentrassi.flow</groupId>
         <artifactId>flow-parent</artifactId>
-        <version>0.0.6</version>
+        <version>0.0.7</version>
     </parent>
 
     <artifactId>flow-model</artifactId>
+    <packaging>bundle</packaging>
 
     <name>Flow :: Model</name>
     <description>The flow model</description>
 
+    <properties>
+        <emf.version>2.12.0</emf.version>
+    </properties>
+
     <dependencies>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -24,20 +30,18 @@
             <artifactId>logback-classic</artifactId>
             <scope>test</scope>
         </dependency>
-        
-        
+
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>org.eclipse.emf.ecore</artifactId>
-            <version>2.12.0</version>
+            <version>${emf.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>org.eclipse.emf.common</artifactId>
-            <version>2.12.0</version>
+            <version>${emf.version}</version>
         </dependency>
-        
 
         <dependency>
             <groupId>de.dentrassi.flow</groupId>
@@ -47,34 +51,42 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/, src-gen/</sourceDirectory>
+        <sourceDirectory>src</sourceDirectory>
 
         <plugins>
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src-gen</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifestFile>META-INF/MANIFEST.MF</manifestFile>
                     </archive>
+                    <instructions>
+                        <Include-Resource>plugin.xml,plugin.properties,model=model</Include-Resource>
+                    </instructions>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <resources>
-                        <resource>
-                            <directory>.</directory>
-                            <includes>
-                                <include>plugin.xml</include>
-                                <include>plugin.properties</include>
-                            </includes>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
+
         </plugins>
 
     </build>

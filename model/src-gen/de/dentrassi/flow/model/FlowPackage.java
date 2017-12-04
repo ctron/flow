@@ -1,6 +1,14 @@
 /**
+ * Copyright (c) 2017 Red Hat Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Jens Reimann - initial API and implementation
  */
-package de.dentrassi.flow.model.flow;
+package de.dentrassi.flow.model;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -19,7 +27,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see de.dentrassi.flow.model.flow.FlowFactory
+ * @see de.dentrassi.flow.model.FlowFactory
  * @model kind="package"
  * @generated
  */
@@ -30,7 +38,7 @@ public interface FlowPackage extends EPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    String eNAME = "flow";
+    String eNAME = "model";
 
     /**
      * The package namespace URI.
@@ -46,7 +54,7 @@ public interface FlowPackage extends EPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    String eNS_PREFIX = "flow";
+    String eNS_PREFIX = "model";
 
     /**
      * The singleton instance of the package.
@@ -54,14 +62,14 @@ public interface FlowPackage extends EPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    FlowPackage eINSTANCE = de.dentrassi.flow.model.flow.impl.FlowPackageImpl.init();
+    FlowPackage eINSTANCE = de.dentrassi.flow.model.impl.FlowPackageImpl.init();
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.FlowImpl <em>Flow</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.FlowImpl <em>Flow</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.FlowImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getFlow()
+     * @see de.dentrassi.flow.model.impl.FlowImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getFlow()
      * @generated
      */
     int FLOW = 0;
@@ -103,11 +111,11 @@ public interface FlowPackage extends EPackage {
     int FLOW_OPERATION_COUNT = 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.NodeImpl <em>Node</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.NodeImpl <em>Node</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.NodeImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getNode()
+     * @see de.dentrassi.flow.model.impl.NodeImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getNode()
      * @generated
      */
     int NODE = 1;
@@ -158,11 +166,11 @@ public interface FlowPackage extends EPackage {
     int NODE_OPERATION_COUNT = 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.PortImpl <em>Port</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.PortImpl <em>Port</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.PortImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getPort()
+     * @see de.dentrassi.flow.model.impl.PortImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getPort()
      * @generated
      */
     int PORT = 2;
@@ -204,11 +212,11 @@ public interface FlowPackage extends EPackage {
     int PORT_OPERATION_COUNT = 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.DataInPortImpl <em>Data In Port</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.DataInPortImpl <em>Data In Port</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.DataInPortImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getDataInPort()
+     * @see de.dentrassi.flow.model.impl.DataInPortImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getDataInPort()
      * @generated
      */
     int DATA_IN_PORT = 3;
@@ -250,11 +258,11 @@ public interface FlowPackage extends EPackage {
     int DATA_IN_PORT_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.DataOutPortImpl <em>Data Out Port</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.DataOutPortImpl <em>Data Out Port</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.DataOutPortImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getDataOutPort()
+     * @see de.dentrassi.flow.model.impl.DataOutPortImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getDataOutPort()
      * @generated
      */
     int DATA_OUT_PORT = 4;
@@ -296,11 +304,11 @@ public interface FlowPackage extends EPackage {
     int DATA_OUT_PORT_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.TriggerInPortImpl <em>Trigger In Port</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.TriggerInPortImpl <em>Trigger In Port</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.TriggerInPortImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getTriggerInPort()
+     * @see de.dentrassi.flow.model.impl.TriggerInPortImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getTriggerInPort()
      * @generated
      */
     int TRIGGER_IN_PORT = 5;
@@ -342,11 +350,11 @@ public interface FlowPackage extends EPackage {
     int TRIGGER_IN_PORT_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.TriggerOutPortImpl <em>Trigger Out Port</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.TriggerOutPortImpl <em>Trigger Out Port</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.TriggerOutPortImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getTriggerOutPort()
+     * @see de.dentrassi.flow.model.impl.TriggerOutPortImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getTriggerOutPort()
      * @generated
      */
     int TRIGGER_OUT_PORT = 6;
@@ -388,11 +396,11 @@ public interface FlowPackage extends EPackage {
     int TRIGGER_OUT_PORT_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.ConnectionImpl <em>Connection</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.ConnectionImpl <em>Connection</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.ConnectionImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getConnection()
+     * @see de.dentrassi.flow.model.impl.ConnectionImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getConnection()
      * @generated
      */
     int CONNECTION = 7;
@@ -416,11 +424,11 @@ public interface FlowPackage extends EPackage {
     int CONNECTION_OPERATION_COUNT = 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.DataConnectionImpl <em>Data Connection</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.DataConnectionImpl <em>Data Connection</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.DataConnectionImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getDataConnection()
+     * @see de.dentrassi.flow.model.impl.DataConnectionImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getDataConnection()
      * @generated
      */
     int DATA_CONNECTION = 8;
@@ -462,11 +470,11 @@ public interface FlowPackage extends EPackage {
     int DATA_CONNECTION_OPERATION_COUNT = CONNECTION_OPERATION_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link de.dentrassi.flow.model.flow.impl.TriggerConnectionImpl <em>Trigger Connection</em>}' class.
+     * The meta object id for the '{@link de.dentrassi.flow.model.impl.TriggerConnectionImpl <em>Trigger Connection</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see de.dentrassi.flow.model.flow.impl.TriggerConnectionImpl
-     * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getTriggerConnection()
+     * @see de.dentrassi.flow.model.impl.TriggerConnectionImpl
+     * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getTriggerConnection()
      * @generated
      */
     int TRIGGER_CONNECTION = 9;
@@ -508,221 +516,221 @@ public interface FlowPackage extends EPackage {
     int TRIGGER_CONNECTION_OPERATION_COUNT = CONNECTION_OPERATION_COUNT + 0;
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.Flow <em>Flow</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.Flow <em>Flow</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Flow</em>'.
-     * @see de.dentrassi.flow.model.flow.Flow
+     * @see de.dentrassi.flow.model.Flow
      * @generated
      */
     EClass getFlow();
 
     /**
-     * Returns the meta object for the containment reference list '{@link de.dentrassi.flow.model.flow.Flow#getNodes <em>Nodes</em>}'.
+     * Returns the meta object for the containment reference list '{@link de.dentrassi.flow.model.Flow#getNodes <em>Nodes</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the containment reference list '<em>Nodes</em>'.
-     * @see de.dentrassi.flow.model.flow.Flow#getNodes()
+     * @see de.dentrassi.flow.model.Flow#getNodes()
      * @see #getFlow()
      * @generated
      */
     EReference getFlow_Nodes();
 
     /**
-     * Returns the meta object for the containment reference list '{@link de.dentrassi.flow.model.flow.Flow#getConnections <em>Connections</em>}'.
+     * Returns the meta object for the containment reference list '{@link de.dentrassi.flow.model.Flow#getConnections <em>Connections</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the containment reference list '<em>Connections</em>'.
-     * @see de.dentrassi.flow.model.flow.Flow#getConnections()
+     * @see de.dentrassi.flow.model.Flow#getConnections()
      * @see #getFlow()
      * @generated
      */
     EReference getFlow_Connections();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.Node <em>Node</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.Node <em>Node</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Node</em>'.
-     * @see de.dentrassi.flow.model.flow.Node
+     * @see de.dentrassi.flow.model.Node
      * @generated
      */
     EClass getNode();
 
     /**
-     * Returns the meta object for the attribute '{@link de.dentrassi.flow.model.flow.Node#getId <em>Id</em>}'.
+     * Returns the meta object for the attribute '{@link de.dentrassi.flow.model.Node#getId <em>Id</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Id</em>'.
-     * @see de.dentrassi.flow.model.flow.Node#getId()
+     * @see de.dentrassi.flow.model.Node#getId()
      * @see #getNode()
      * @generated
      */
     EAttribute getNode_Id();
 
     /**
-     * Returns the meta object for the attribute '{@link de.dentrassi.flow.model.flow.Node#getType <em>Type</em>}'.
+     * Returns the meta object for the attribute '{@link de.dentrassi.flow.model.Node#getType <em>Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Type</em>'.
-     * @see de.dentrassi.flow.model.flow.Node#getType()
+     * @see de.dentrassi.flow.model.Node#getType()
      * @see #getNode()
      * @generated
      */
     EAttribute getNode_Type();
 
     /**
-     * Returns the meta object for the reference list '{@link de.dentrassi.flow.model.flow.Node#getPorts <em>Ports</em>}'.
+     * Returns the meta object for the reference list '{@link de.dentrassi.flow.model.Node#getPorts <em>Ports</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Ports</em>'.
-     * @see de.dentrassi.flow.model.flow.Node#getPorts()
+     * @see de.dentrassi.flow.model.Node#getPorts()
      * @see #getNode()
      * @generated
      */
     EReference getNode_Ports();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.Port <em>Port</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.Port <em>Port</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Port</em>'.
-     * @see de.dentrassi.flow.model.flow.Port
+     * @see de.dentrassi.flow.model.Port
      * @generated
      */
     EClass getPort();
 
     /**
-     * Returns the meta object for the attribute '{@link de.dentrassi.flow.model.flow.Port#getName <em>Name</em>}'.
+     * Returns the meta object for the attribute '{@link de.dentrassi.flow.model.Port#getName <em>Name</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Name</em>'.
-     * @see de.dentrassi.flow.model.flow.Port#getName()
+     * @see de.dentrassi.flow.model.Port#getName()
      * @see #getPort()
      * @generated
      */
     EAttribute getPort_Name();
 
     /**
-     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.flow.Port#getNode <em>Node</em>}'.
+     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.Port#getNode <em>Node</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Node</em>'.
-     * @see de.dentrassi.flow.model.flow.Port#getNode()
+     * @see de.dentrassi.flow.model.Port#getNode()
      * @see #getPort()
      * @generated
      */
     EReference getPort_Node();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.DataInPort <em>Data In Port</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.DataInPort <em>Data In Port</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Data In Port</em>'.
-     * @see de.dentrassi.flow.model.flow.DataInPort
+     * @see de.dentrassi.flow.model.DataInPort
      * @generated
      */
     EClass getDataInPort();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.DataOutPort <em>Data Out Port</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.DataOutPort <em>Data Out Port</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Data Out Port</em>'.
-     * @see de.dentrassi.flow.model.flow.DataOutPort
+     * @see de.dentrassi.flow.model.DataOutPort
      * @generated
      */
     EClass getDataOutPort();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.TriggerInPort <em>Trigger In Port</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.TriggerInPort <em>Trigger In Port</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Trigger In Port</em>'.
-     * @see de.dentrassi.flow.model.flow.TriggerInPort
+     * @see de.dentrassi.flow.model.TriggerInPort
      * @generated
      */
     EClass getTriggerInPort();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.TriggerOutPort <em>Trigger Out Port</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.TriggerOutPort <em>Trigger Out Port</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Trigger Out Port</em>'.
-     * @see de.dentrassi.flow.model.flow.TriggerOutPort
+     * @see de.dentrassi.flow.model.TriggerOutPort
      * @generated
      */
     EClass getTriggerOutPort();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.Connection <em>Connection</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.Connection <em>Connection</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Connection</em>'.
-     * @see de.dentrassi.flow.model.flow.Connection
+     * @see de.dentrassi.flow.model.Connection
      * @generated
      */
     EClass getConnection();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.DataConnection <em>Data Connection</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.DataConnection <em>Data Connection</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Data Connection</em>'.
-     * @see de.dentrassi.flow.model.flow.DataConnection
+     * @see de.dentrassi.flow.model.DataConnection
      * @generated
      */
     EClass getDataConnection();
 
     /**
-     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.flow.DataConnection#getIn <em>In</em>}'.
+     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.DataConnection#getIn <em>In</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>In</em>'.
-     * @see de.dentrassi.flow.model.flow.DataConnection#getIn()
+     * @see de.dentrassi.flow.model.DataConnection#getIn()
      * @see #getDataConnection()
      * @generated
      */
     EReference getDataConnection_In();
 
     /**
-     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.flow.DataConnection#getOut <em>Out</em>}'.
+     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.DataConnection#getOut <em>Out</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Out</em>'.
-     * @see de.dentrassi.flow.model.flow.DataConnection#getOut()
+     * @see de.dentrassi.flow.model.DataConnection#getOut()
      * @see #getDataConnection()
      * @generated
      */
     EReference getDataConnection_Out();
 
     /**
-     * Returns the meta object for class '{@link de.dentrassi.flow.model.flow.TriggerConnection <em>Trigger Connection</em>}'.
+     * Returns the meta object for class '{@link de.dentrassi.flow.model.TriggerConnection <em>Trigger Connection</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Trigger Connection</em>'.
-     * @see de.dentrassi.flow.model.flow.TriggerConnection
+     * @see de.dentrassi.flow.model.TriggerConnection
      * @generated
      */
     EClass getTriggerConnection();
 
     /**
-     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.flow.TriggerConnection#getIn <em>In</em>}'.
+     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.TriggerConnection#getIn <em>In</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>In</em>'.
-     * @see de.dentrassi.flow.model.flow.TriggerConnection#getIn()
+     * @see de.dentrassi.flow.model.TriggerConnection#getIn()
      * @see #getTriggerConnection()
      * @generated
      */
     EReference getTriggerConnection_In();
 
     /**
-     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.flow.TriggerConnection#getOut <em>Out</em>}'.
+     * Returns the meta object for the reference '{@link de.dentrassi.flow.model.TriggerConnection#getOut <em>Out</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Out</em>'.
-     * @see de.dentrassi.flow.model.flow.TriggerConnection#getOut()
+     * @see de.dentrassi.flow.model.TriggerConnection#getOut()
      * @see #getTriggerConnection()
      * @generated
      */
@@ -752,11 +760,11 @@ public interface FlowPackage extends EPackage {
      */
     interface Literals {
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.FlowImpl <em>Flow</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.FlowImpl <em>Flow</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.FlowImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getFlow()
+         * @see de.dentrassi.flow.model.impl.FlowImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getFlow()
          * @generated
          */
         EClass FLOW = eINSTANCE.getFlow();
@@ -778,11 +786,11 @@ public interface FlowPackage extends EPackage {
         EReference FLOW__CONNECTIONS = eINSTANCE.getFlow_Connections();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.NodeImpl <em>Node</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.NodeImpl <em>Node</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.NodeImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getNode()
+         * @see de.dentrassi.flow.model.impl.NodeImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getNode()
          * @generated
          */
         EClass NODE = eINSTANCE.getNode();
@@ -812,11 +820,11 @@ public interface FlowPackage extends EPackage {
         EReference NODE__PORTS = eINSTANCE.getNode_Ports();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.PortImpl <em>Port</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.PortImpl <em>Port</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.PortImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getPort()
+         * @see de.dentrassi.flow.model.impl.PortImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getPort()
          * @generated
          */
         EClass PORT = eINSTANCE.getPort();
@@ -838,61 +846,61 @@ public interface FlowPackage extends EPackage {
         EReference PORT__NODE = eINSTANCE.getPort_Node();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.DataInPortImpl <em>Data In Port</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.DataInPortImpl <em>Data In Port</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.DataInPortImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getDataInPort()
+         * @see de.dentrassi.flow.model.impl.DataInPortImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getDataInPort()
          * @generated
          */
         EClass DATA_IN_PORT = eINSTANCE.getDataInPort();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.DataOutPortImpl <em>Data Out Port</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.DataOutPortImpl <em>Data Out Port</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.DataOutPortImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getDataOutPort()
+         * @see de.dentrassi.flow.model.impl.DataOutPortImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getDataOutPort()
          * @generated
          */
         EClass DATA_OUT_PORT = eINSTANCE.getDataOutPort();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.TriggerInPortImpl <em>Trigger In Port</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.TriggerInPortImpl <em>Trigger In Port</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.TriggerInPortImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getTriggerInPort()
+         * @see de.dentrassi.flow.model.impl.TriggerInPortImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getTriggerInPort()
          * @generated
          */
         EClass TRIGGER_IN_PORT = eINSTANCE.getTriggerInPort();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.TriggerOutPortImpl <em>Trigger Out Port</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.TriggerOutPortImpl <em>Trigger Out Port</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.TriggerOutPortImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getTriggerOutPort()
+         * @see de.dentrassi.flow.model.impl.TriggerOutPortImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getTriggerOutPort()
          * @generated
          */
         EClass TRIGGER_OUT_PORT = eINSTANCE.getTriggerOutPort();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.ConnectionImpl <em>Connection</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.ConnectionImpl <em>Connection</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.ConnectionImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getConnection()
+         * @see de.dentrassi.flow.model.impl.ConnectionImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getConnection()
          * @generated
          */
         EClass CONNECTION = eINSTANCE.getConnection();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.DataConnectionImpl <em>Data Connection</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.DataConnectionImpl <em>Data Connection</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.DataConnectionImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getDataConnection()
+         * @see de.dentrassi.flow.model.impl.DataConnectionImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getDataConnection()
          * @generated
          */
         EClass DATA_CONNECTION = eINSTANCE.getDataConnection();
@@ -914,11 +922,11 @@ public interface FlowPackage extends EPackage {
         EReference DATA_CONNECTION__OUT = eINSTANCE.getDataConnection_Out();
 
         /**
-         * The meta object literal for the '{@link de.dentrassi.flow.model.flow.impl.TriggerConnectionImpl <em>Trigger Connection</em>}' class.
+         * The meta object literal for the '{@link de.dentrassi.flow.model.impl.TriggerConnectionImpl <em>Trigger Connection</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see de.dentrassi.flow.model.flow.impl.TriggerConnectionImpl
-         * @see de.dentrassi.flow.model.flow.impl.FlowPackageImpl#getTriggerConnection()
+         * @see de.dentrassi.flow.model.impl.TriggerConnectionImpl
+         * @see de.dentrassi.flow.model.impl.FlowPackageImpl#getTriggerConnection()
          * @generated
          */
         EClass TRIGGER_CONNECTION = eINSTANCE.getTriggerConnection();

@@ -19,17 +19,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import de.dentrassi.flow.model.flow.Connection;
-import de.dentrassi.flow.model.flow.DataConnection;
-import de.dentrassi.flow.model.flow.DataInPort;
-import de.dentrassi.flow.model.flow.DataOutPort;
-import de.dentrassi.flow.model.flow.Flow;
-import de.dentrassi.flow.model.flow.Node;
-import de.dentrassi.flow.model.flow.Port;
-import de.dentrassi.flow.model.flow.TriggerConnection;
-import de.dentrassi.flow.model.flow.TriggerInPort;
-import de.dentrassi.flow.model.flow.TriggerOutPort;
-
 public class DotRenderer implements Renderer {
 
     private DotRenderer() {

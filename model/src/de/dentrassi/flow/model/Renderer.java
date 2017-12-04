@@ -21,8 +21,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.file.Path;
 
-import de.dentrassi.flow.model.flow.Flow;
-
 public interface Renderer {
 
     public void render(Flow flow, Writer writer) throws IOException;
