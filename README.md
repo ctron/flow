@@ -4,3 +4,7 @@
 Data flow, state machine oriented "programming" based on Java. … "Less programming, more drawing"
 
 ![Flow example](docs/model.png "Example Flow")
+
+## P2 Repository
+
+Flow also provides a P2 repository: https://ctron.github.io/flow/p2
