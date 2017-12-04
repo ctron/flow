@@ -26,6 +26,11 @@
             <artifactId>flow-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.dentrassi.flow</groupId>
+            <artifactId>flow-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
