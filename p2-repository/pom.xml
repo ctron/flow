@@ -13,7 +13,7 @@
     <artifactId>p2-repository</artifactId>
     <packaging>pom</packaging>
 
-    <name>Flow</name>
+    <name>Flow :: P2 Repository</name>
     <description>P2 repository of Flow</description>
 
     <properties>
