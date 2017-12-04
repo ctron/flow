@@ -6,6 +6,9 @@ de.dentrassi.flow.component.kapua
 de.dentrassi.flow.component.mqtt
 de.dentrassi.flow.component.trigger
 de.dentrassi.flow.event
+de.dentrassi.flow.model
+de.dentrassi.flow.model.impl
+de.dentrassi.flow.model.util
 de.dentrassi.flow.spi
 de.dentrassi.flow.spi.component
 de.dentrassi.flow.spi.type
