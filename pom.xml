@@ -68,6 +68,8 @@
         <module>core</module>
         <module>components</module>
         <module>model</module>
+
+        <module>p2-repository</module>
     </modules>
 
     <dependencyManagement>
