@@ -95,6 +95,9 @@ public class MqttClient extends AnnotatedComponent {
         options.setUsername(this.username);
         options.setPassword(this.password);
 
+        getInitializer("trustAll", Boolean.class)
+                .ifPresent(options::setTrustAll);
+
         this.client = de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient
                 .create(this.vertx.get(), options)
                 .closeHandler(v -> {
@@ -124,7 +127,7 @@ public class MqttClient extends AnnotatedComponent {
     }
 
     private void doConnect() {
-        this.client.connect(this.port, this.host, connected -> {
+        this.client.connect(this.port, this.host, this.host, connected -> {
             if (connected.succeeded()) {
                 runOnContext(this::connectionEstablished);
             } else {
