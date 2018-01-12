@@ -98,6 +98,9 @@ public class MqttClient extends AnnotatedComponent {
         getInitializer("trustAll", Boolean.class)
                 .ifPresent(options::setTrustAll);
 
+        getInitializer("ssl", Boolean.class)
+                .ifPresent(options::setSsl);
+
         this.client = de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient
                 .create(this.vertx.get(), options)
                 .closeHandler(v -> {
