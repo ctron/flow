@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017 Red Hat Inc and others.
+ * Copyright (c) 2017, 2018 Red Hat Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,7 +41,7 @@ public class MqttClient extends AnnotatedComponent {
     private String password;
 
     private SharedResource<Vertx> vertx;
-    private de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient client;
+    private io.vertx.mqtt.MqttClient client;
 
     private boolean started;
     private boolean connected;
@@ -101,7 +101,7 @@ public class MqttClient extends AnnotatedComponent {
         getInitializer("ssl", Boolean.class)
                 .ifPresent(options::setSsl);
 
-        this.client = de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient
+        this.client = io.vertx.mqtt.MqttClient
                 .create(this.vertx.get(), options)
                 .closeHandler(v -> {
                     runOnContext(this::connectionLost);
@@ -218,7 +218,7 @@ public class MqttClient extends AnnotatedComponent {
     }
 
     @DataOut
-    public de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient getClient() {
+    public io.vertx.mqtt.MqttClient getClient() {
         return this.client;
     }
 

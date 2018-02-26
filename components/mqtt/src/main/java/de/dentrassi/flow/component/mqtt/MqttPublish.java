@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017 Red Hat Inc and others.
+ * Copyright (c) 2017, 2018 Red Hat Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,6 @@ package de.dentrassi.flow.component.mqtt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dentrassi.flow.component.mqtt.internal.io.vertx.mqtt.MqttClient;
 import de.dentrassi.flow.spi.component.AnnotatedComponent;
 import de.dentrassi.flow.spi.component.DataIn;
 import de.dentrassi.flow.spi.component.SimpleSingleDataPortIn;
@@ -21,6 +20,7 @@ import de.dentrassi.flow.spi.component.TriggerIn;
 import de.dentrassi.flow.spi.component.ValueResult;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.mqtt.MqttClient;
 
 public class MqttPublish extends AnnotatedComponent {
 
